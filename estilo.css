@@ -242,5 +242,5 @@ footer img{height:60px;width:auto}
 .rev.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.rev{opacity:1;transform:none;transition:none}}
 .tipo .ver-precio{display:inline-block;margin-top:16px;color:var(--durazno);font-weight:600;font-size:14px;text-decoration:none;border-bottom:1px solid currentColor}
-.ico-wa{width:20px;height:20px;flex:none}
+.ico-wa{width:18px;height:18px;flex:none}
 .btn .ico-wa{margin-right:2px}
