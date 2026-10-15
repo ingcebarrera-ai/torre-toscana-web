@@ -36,7 +36,7 @@
 .desde div span{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gris)}
 .desde div b{font-size:26px;color:var(--terra);font-weight:700}
 .tabla-wrap{margin-top:40px;overflow-x:auto;border:1px solid var(--linea);border-radius:14px;background:#fff;-webkit-overflow-scrolling:touch}
-table.precios{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14.5px;min-width:720px}
+table.precios{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14.5px}
 .precios th{background:var(--verde);color:#fff;font-weight:600;font-size:12.5px;padding:12px 12px;text-align:right;white-space:nowrap}
 .precios th small{display:block;font-weight:400;opacity:.8;font-size:11.5px}
 .precios th:first-child,.precios td:first-child{text-align:left}
@@ -46,8 +46,12 @@ table.precios{width:100%;border-collapse:collapse;font-variant-numeric:tabular-n
 .precios td.dest{font-weight:700;color:var(--terra);background:#fbf6f2}
 .precios tr:hover td{background:var(--crema)}
 .nota-t{font-size:13px;color:var(--gris);margin:10px 2px 0}
-.desliza{display:none;font-size:12.5px;color:var(--terra);margin:28px 2px -30px;font-weight:600}
-@media (max-width:760px){.desliza{display:block}}
+.descs{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:16px}
+.descs-t{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);margin-right:6px}
+.desc{display:flex;align-items:baseline;gap:8px;background:#fff;border:1.5px solid var(--terra);border-radius:999px;padding:9px 18px}
+.desc b{color:var(--terra);font-size:17px;font-weight:700}
+.desc span{font-size:13.5px;color:var(--tinta)}
+@media (max-width:600px){.descs{flex-direction:column;align-items:stretch}.descs-t{margin:0 0 2px}.desc{justify-content:flex-start}}
 .cond{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
 .cond div{border:1px solid var(--linea);border-radius:12px;padding:14px 16px;background:var(--crema)}
 .unidad:nth-of-type(even) .cond div{background:var(--crema)}
@@ -251,8 +255,7 @@ table.precios{width:100%;border-collapse:collapse;font-variant-numeric:tabular-n
   const cont = document.getElementById('unidades');
   cont.innerHTML = Object.entries(TIPOS).map(([k, t]) => {
     const filas = Object.keys(P.pm2).map(piso => { const L = r0(lista(k, piso));
-      return '<tr><td>Piso ' + piso + '</td><td>' + miles(P.pm2[piso]) + '</td><td>' + miles(L) + '</td><td class="dest">' + miles(L * .20) + '</td>' +
-        '<td>' + miles(L * (1 - P.d40 / 100)) + '</td><td>' + miles(L * (1 - P.d60 / 100)) + '</td><td class="dest">' + miles(L * (1 - P.d100 / 100)) + '</td></tr>'; }).join('');
+      return '<tr><td>Piso ' + piso + '</td><td>' + miles(P.pm2[piso]) + '</td><td>' + miles(L) + '</td><td class="dest">' + miles(L * .20) + '</td></tr>'; }).join('');
     const L1 = r0(lista(k, 1));
     return '<section class="unidad" id="' + t.id + '"><div class="wrap">' +
       '<div class="u-top"><div class="u-img"><img src="/img/' + t.img + '" alt="Vista isométrica del departamento ' + t.n + '" loading="lazy"></div>' +
@@ -262,8 +265,12 @@ table.precios{width:100%;border-collapse:collapse;font-variant-numeric:tabular-n
       '<div class="desde"><div><span>Desde</span><b>$us ' + miles(L1) + '</b></div><div><span>Entra con</span><b>$us ' + miles(L1 * .2) + '</b></div><div><span>Al contado desde</span><b>$us ' + miles(L1 * (1 - P.d100 / 100)) + '</b></div></div>' +
       '<div class="u-acc"><button class="btn btn-terra" data-sim="' + k + '">Simular este departamento</button>' +
       '<a class="btn btn-borde" target="_blank" rel="noopener" href="https://wa.me/' + WA + '?text=' + encodeURIComponent('Hola, me interesa el departamento ' + t.n + ' (' + t.dorm + ', ' + m2txt(t.m2) + ' m²) de Torre Toscana. ¿Qué pisos están disponibles?') + '"><svg class="ico-wa" width="18" height="18" style="width:18px;height:18px;flex:none" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3z"/></svg>Consultar disponibilidad</a></div></div></div>' +
-      '<p class="desliza">Desliza la tabla → para ver los descuentos</p><div class="tabla-wrap"><table class="precios"><thead><tr><th>Piso</th><th>Precio m²</th><th>Precio lista</th><th class="dest">Entra con<small>20%</small></th><th>40% a la firma<small>−' + pct(P.d40) + '%</small></th><th>60% a la firma<small>−' + pct(P.d60) + '%</small></th><th class="dest">Al contado<small>−' + pct(P.d100) + '%</small></th></tr></thead><tbody>' + filas + '</tbody></table></div>' +
-      '<p class="nota-t">Precios en $us. Las columnas de 40%, 60% y contado muestran el precio final con su descuento. "Entra con" es el 20% del precio de lista.</p>' +
+      '<div class="tabla-wrap"><table class="precios"><thead><tr><th>Piso</th><th>Precio m²</th><th>Precio lista</th><th class="dest">Entra con<small>20%</small></th></tr></thead><tbody>' + filas + '</tbody></table></div>' +
+      '<div class="descs"><span class="descs-t">Descuentos</span>' +
+        '<div class="desc"><b>−' + pct(P.d40) + '%</b><span>pagando 40% a la firma</span></div>' +
+        '<div class="desc"><b>−' + pct(P.d60) + '%</b><span>pagando 60% a la firma</span></div>' +
+        '<div class="desc"><b>−' + pct(P.d100) + '%</b><span>pagando al contado</span></div></div>' +
+      '<p class="nota-t">Precios en $us. "Entra con" es el 20% del precio de lista. El descuento se aplica sobre el precio de lista del departamento.</p>' +
       '<div class="cond"><div><b>Reserva $us ' + miles(P.reserva) + '</b><span>Congela tu precio</span></div><div><b>' + P.minimo + '% a la firma</b><span>Pago mínimo para entrar</span></div>' +
       '<div><b>Saldo contra entrega</b><span>Lo pagas en ' + P.entrega + '</span></div><div><b>O crédito directo</b><span>Saldo hasta ' + P.credito + '</span></div></div>' +
       '</div></section>';
