@@ -59,7 +59,7 @@ section{padding:110px 0}
 .hero h1 b{text-transform:uppercase}
 .hero .acciones{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
 .hero-img{height:min(calc(100vh - 110px),980px);aspect-ratio:1305/2250;border-radius:220px 220px 14px 14px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(38,42,34,.45)}
-.hero-img img{width:100%;height:100%;object-fit:cover}
+.hero-img img,.hero-img video{width:100%;height:100%;object-fit:cover;display:block}
 .datos{display:flex;flex-wrap:wrap;gap:0;margin-top:44px;border-top:1px solid var(--linea)}
 .datos div{padding:18px 26px 0 0;margin-right:26px}
 .datos b{display:block;font-size:24px;font-weight:600;color:var(--verde);line-height:1.1}
@@ -68,7 +68,7 @@ section{padding:110px 0}
   .hero{min-height:0;padding-top:96px}
   .hero .wrap{grid-template-columns:1fr;gap:36px}
   .hero-img{height:auto;width:100%;max-width:440px;margin:0 auto;border-radius:180px 180px 14px 14px}
-  .hero-img img{height:auto}
+  .hero-img img,.hero-img video{height:auto;aspect-ratio:580/1000}
 }
 
 /* ------- cinta ------- */
