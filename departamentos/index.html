@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Departamentos y precios · Torre Toscana</title>
+<meta name="description" content="Precios por piso de los departamentos de 1 y 2 dormitorios de Torre Toscana, descuentos por forma de pago y simulador de pago.">
+<meta property="og:title" content="Departamentos y precios · Torre Toscana">
+<meta property="og:image" content="https://torre-toscana.com/img/fachada-full.jpg">
+<meta property="og:url" content="https://torre-toscana.com/departamentos/">
+<link rel="canonical" href="https://torre-toscana.com/departamentos/">
+<meta name="theme-color" content="#3e4834">
+<link rel="icon" href="/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,400;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/estilo.css">
+<style>
+.nav{background:rgba(246,243,238,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--linea)}
+.cab{padding:140px 0 56px;background:linear-gradient(180deg,var(--crema) 0%,var(--crema-2) 100%)}
+.cab h1{font-size:clamp(36px,5vw,62px)}
+.saltos{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.saltos a{text-decoration:none;border:1.5px solid var(--verde);color:var(--verde);border-radius:999px;padding:10px 18px;font-weight:600;font-size:14px}
+.saltos a.p{background:var(--verde);color:#fff}
+.unidad{padding:90px 0;border-top:1px solid var(--linea)}
+.unidad:nth-of-type(even){background:#fff}
+.u-top{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+@media (max-width:900px){.u-top{grid-template-columns:1fr;gap:28px}}
+.u-img{border-radius:16px;overflow:hidden;background:#3a3a3a}
+.u-img img{width:100%;aspect-ratio:1400/786;object-fit:cover}
+.u-m2{font-size:44px;font-weight:700;color:var(--verde);line-height:1;margin:18px 0 4px}
+.u-m2 small{font-size:18px;font-weight:500}
+.chips{list-style:none;padding:0;margin:16px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.chips li{font-size:13px;border:1px solid var(--linea);background:#fff;border-radius:999px;padding:5px 12px;color:var(--tinta)}
+.desde{margin-top:22px;display:flex;gap:28px;flex-wrap:wrap}
+.desde div span{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gris)}
+.desde div b{font-size:26px;color:var(--terra);font-weight:700}
+.tabla-wrap{margin-top:40px;overflow-x:auto;border:1px solid var(--linea);border-radius:14px;background:#fff;-webkit-overflow-scrolling:touch}
+table.precios{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14.5px;min-width:720px}
+.precios th{background:var(--verde);color:#fff;font-weight:600;font-size:12.5px;padding:12px 12px;text-align:right;white-space:nowrap}
+.precios th small{display:block;font-weight:400;opacity:.8;font-size:11.5px}
+.precios th:first-child,.precios td:first-child{text-align:left}
+.precios th.dest{background:var(--terra)}
+.precios td{padding:11px 12px;text-align:right;border-top:1px solid var(--crema-2);white-space:nowrap}
+.precios td:first-child{font-weight:600;color:var(--verde)}
+.precios td.dest{font-weight:700;color:var(--terra);background:#fbf6f2}
+.precios tr:hover td{background:var(--crema)}
+.nota-t{font-size:13px;color:var(--gris);margin:10px 2px 0}
+.desliza{display:none;font-size:12.5px;color:var(--terra);margin:28px 2px -30px;font-weight:600}
+@media (max-width:760px){.desliza{display:block}}
+.cond{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.cond div{border:1px solid var(--linea);border-radius:12px;padding:14px 16px;background:var(--crema)}
+.unidad:nth-of-type(even) .cond div{background:var(--crema)}
+.cond b{display:block;color:var(--verde);font-size:15px}
+.cond span{font-size:13px;color:var(--gris)}
+@media (max-width:800px){.cond{grid-template-columns:1fr 1fr}}
+.u-acc{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+/* parqueos */
+.pq{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:36px}
+@media (max-width:820px){.pq{grid-template-columns:1fr}}
+.pq h3{margin:0 0 10px;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--terra)}
+.pq table{min-width:0}
+/* simulador */
+.sim{background:var(--verde);color:#efe9df;padding:100px 0}
+.sim .eyebrow{color:#c9cdbf}.sim h2{color:#fff}.sim h2 b{color:var(--durazno)}.sim .lead{color:#d4d8c9}
+.sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:40px;align-items:start}
+@media (max-width:900px){.sim-grid{grid-template-columns:1fr}}
+.caja{background:#fff;color:var(--tinta);border-radius:18px;padding:24px}
+.caja h3{margin:0 0 14px;font-size:17px;font-weight:600;color:var(--verde)}
+.campo{display:grid;gap:6px;font-size:13px;color:var(--gris);margin-bottom:14px}
+.campo select,.campo input{padding:12px;border:1px solid var(--linea);border-radius:10px;background:var(--crema);color:var(--tinta);font:15px var(--sans);width:100%;min-width:0}
+.fila2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.planes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.planes button,.modos button{padding:11px 4px;border:1.5px solid var(--linea);border-radius:10px;background:#fff;color:var(--tinta);font:600 13px/1.2 var(--sans);cursor:pointer}
+.planes button small{display:block;font-weight:500;color:var(--terra);font-size:12px}
+.planes button[aria-pressed="true"],.modos button[aria-pressed="true"]{background:var(--verde);border-color:var(--verde);color:#fff}
+.planes button[aria-pressed="true"] small{color:var(--durazno)}
+.modos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
+.modos button{padding:12px 8px;text-align:center}
+.modos button small{display:block;font-weight:500;font-size:11.5px;opacity:.8;margin-top:2px}
+.grande{background:var(--crema);border-radius:14px;padding:16px 18px;margin-bottom:16px}
+.grande span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris)}
+.grande b{display:block;font-size:34px;font-weight:700;color:var(--verde);line-height:1.15;font-variant-numeric:tabular-nums}
+.grande small{color:var(--gris);font-size:13px}
+.desg{width:100%;border-collapse:collapse;font-size:14.5px;font-variant-numeric:tabular-nums}
+.desg td{padding:7px 0;border-top:1px solid var(--crema-2)}
+.desg td:last-child{text-align:right;font-weight:600;white-space:nowrap;padding-left:10px}
+.desg tr.f td{font-weight:700;color:var(--verde);border-top:1.5px solid var(--linea)}
+.desg tr.neg td:last-child{color:var(--terra)}
+.aviso{font-size:13px;color:var(--terra);margin:10px 0 0}
+.credito{background:var(--crema);border-radius:14px;padding:18px;font-size:14.5px}
+.credito b{color:var(--verde)}
+.caja .btn{width:100%;margin-top:16px}
+.legal{font-size:12.5px;color:#c9cdbf;margin-top:18px}
+</style>
+</head>
+<body>
+
+<header class="nav solid" id="nav">
+  <div class="wrap">
+    <a class="marca" href="/" aria-label="Torre Toscana, inicio"><img src="/img/icono.png" alt=""><span>Torre Toscana</span></a>
+    <nav class="links" id="links" aria-label="Secciones">
+      <a href="#tipo-a">Tipo A</a>
+      <a href="#tipo-b">Tipo B</a>
+      <a href="#tipo-c">Tipo C</a>
+      <a href="#parqueos">Parqueos</a>
+      <a href="/">Inicio</a>
+      <a class="btn btn-terra btn-sm" href="#simulador">Simular mi pago</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="links">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+<section class="cab">
+  <div class="wrap">
+    <div class="eyebrow">Torre Toscana · Precios en dólares</div>
+    <div class="raya"></div>
+    <h1>Departamentos <b>y precios.</b></h1>
+    <p class="lead">Precios de lista por piso y lo que pagas según cuánto des a la firma. Reserva con <b>$us 500</b> y congela tu precio. <span class="serif">Llaves en abril de 2027.</span></p>
+    <div class="saltos">
+      <a href="#tipo-a">Tipo A · 1 dorm. · 35 m²</a>
+      <a href="#tipo-b">Tipo B · 2 dorm. · 61,44 m²</a>
+      <a href="#tipo-c">Tipo C · 1 dorm. · 36,14 m²</a>
+      <a class="p" href="#simulador">Simular mi pago</a>
+    </div>
+  </div>
+</section>
+
+<div id="unidades"></div>
+
+<section class="unidad" id="parqueos">
+  <div class="wrap">
+    <div class="eyebrow">Parqueos y bauleras</div>
+    <div class="raya"></div>
+    <h2>Completa <b>tu compra.</b></h2>
+    <p class="lead">Parqueos de 12,5 m² y bauleras privadas en semisótano y planta baja. Puedes agregarlos en el simulador.</p>
+    <div class="pq" id="pq"></div>
+    <p class="nota-t">Precios en $us, sujetos a disponibilidad. Algunos parqueos están reservados para compradores de 2 dormitorios. Mira su ubicación en los <a href="/#parqueos">planos</a>.</p>
+  </div>
+</section>
+
+<section class="sim" id="simulador">
+  <div class="wrap">
+    <div class="eyebrow">Simulador de pago</div>
+    <div class="raya"></div>
+    <h2>Calcula <b>tu pago.</b></h2>
+    <p class="lead">Elige tu departamento, el piso y cuánto quieres pagar a la firma. Mientras más pagues a la firma, mayor es tu descuento.</p>
+    <div class="sim-grid">
+      <div class="caja">
+        <h3>1 · Tu departamento</h3>
+        <div class="fila2">
+          <label class="campo">Tipo<select id="sTipo"></select></label>
+          <label class="campo">Piso<select id="sPiso"></select></label>
+        </div>
+        <div class="fila2">
+          <label class="campo">Parqueo<select id="sParq"></select></label>
+          <label class="campo">Baulera<select id="sBaul"></select></label>
+        </div>
+        <h3 style="margin-top:6px">2 · Pago a la firma</h3>
+        <div class="planes" id="planes" role="group" aria-label="Pago a la firma"></div>
+        <div class="fila2">
+          <label class="campo">A la firma (%)<input id="sPct" type="number" inputmode="decimal" min="20" max="100" step="any"></label>
+          <label class="campo">A la firma ($us)<input id="sMon" type="number" inputmode="decimal" min="0" step="any"></label>
+        </div>
+        <h3 style="margin-top:6px">3 · Pago del saldo</h3>
+        <div class="modos" id="modos" role="group" aria-label="Pago del saldo">
+          <button type="button" data-m="entrega" aria-pressed="true">Saldo contra entrega<small>abril 2027</small></button>
+          <button type="button" data-m="credito" aria-pressed="false">Crédito directo<small>hasta diciembre 2027</small></button>
+        </div>
+      </div>
+      <div class="caja" id="resultado" aria-live="polite"></div>
+    </div>
+    <p class="legal">Cálculo referencial. Precios en $us sujetos a disponibilidad y a cambio sin previo aviso. La cotización final la confirma un asesor.</p>
+  </div>
+</section>
+
+<section class="contacto" id="contacto">
+  <div class="fondo" aria-hidden="true"></div>
+  <div class="wrap">
+    <div>
+      <div class="eyebrow" style="color:#c9cdbf">Quedan pocas unidades</div>
+      <div class="raya"></div>
+      <h2>Elige tu piso <b>antes que se vaya.</b></h2>
+      <p>Consulta qué pisos siguen disponibles y agenda tu visita a la obra por WhatsApp.</p>
+    </div>
+    <div class="acciones">
+      <a class="btn btn-wa" href="https://wa.me/59160744425?text=Hola%2C%20quiero%20saber%20qu%C3%A9%20departamentos%20de%20Torre%20Toscana%20est%C3%A1n%20disponibles" target="_blank" rel="noopener">WhatsApp 607 44425</a>
+      <a class="btn btn-borde" style="color:#fff;box-shadow:inset 0 0 0 1.5px #fff" href="/">Volver al inicio</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="/img/logo-claro.png" alt="Torre Toscana">
+    <span>Imágenes referenciales. Precios en $us sujetos a disponibilidad y a cambio sin previo aviso.</span>
+    <span>© 2026 Torre Toscana · Cochabamba</span>
+  </div>
+</footer>
+
+<a class="flota" href="https://wa.me/59160744425?text=Hola%2C%20me%20interesa%20Torre%20Toscana" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3z"/></svg>
+</a>
+
+<script>
+(function(){
+  /* ====== DATOS DE PRECIOS (editar aquí) ====== */
+  const P = {
+    pm2: {1:965, 2:970, 3:975, 4:980, 5:985, 6:990, 7:995, 8:1000},   // $us por m² según piso
+    reserva: 500, minimo: 20,
+    d40: 2, d60: 3.5, d100: 6,                                          // % de descuento
+    entrega: 'abril 2027', credito: 'diciembre 2027'
+  };
+  const TIPOS = {
+    A: {n:'Tipo A', dorm:'1 dormitorio', m2:35, img:'tipo-a.jpg', id:'tipo-a', tit:'Pensado para <b>vivir o alquilar.</b>',
+        chips:['1 dormitorio','1 baño','Living-comedor','Cocina Hisense equipada','Da a la Calle Hermógenes Sejas']},
+    B: {n:'Tipo B', dorm:'2 dormitorios', m2:61.44, img:'tipo-b.jpg', id:'tipo-b', tit:'Espacio para <b>crecer en familia.</b>',
+        chips:['2 dormitorios','Baño completo','Living y comedor','Balcón','Cocina Hisense equipada','Da a la Calle Bernardo Monteagudo']},
+    C: {n:'Tipo C', dorm:'1 dormitorio', m2:36.14, img:'tipo-c.jpg', id:'tipo-c', tit:'Tu primer departamento, <b>o tu inversión.</b>',
+        chips:['1 dormitorio','1 baño','Living-comedor','Cocina Hisense equipada']}
+  };
+  const EXTRAS = [
+    {id:'P1', t:'P', n:'Parqueo 1', l:'Semisótano', p:10000}, {id:'P2', t:'P', n:'Parqueo 2', l:'Semisótano', p:10000},
+    {id:'P3', t:'P', n:'Parqueo 3', l:'Semisótano', p:10000}, {id:'P4', t:'P', n:'Parqueo 4', l:'Semisótano', p:10000},
+    {id:'P5', t:'P', n:'Parqueo 5', l:'Semisótano', p:10000}, {id:'P6', t:'P', n:'Parqueo 6', l:'Semisótano', p:10000},
+    {id:'P7', t:'P', n:'Parqueo 7', l:'Planta baja', p:11000}, {id:'P8', t:'P', n:'Parqueo 8', l:'Planta baja', p:11000},
+    {id:'P9', t:'P', n:'Parqueo 9', l:'Planta baja', p:11000},
+    {id:'B1', t:'B', n:'Baulera 1', l:'Semisótano', m2:'3,00', p:2500}, {id:'B2', t:'B', n:'Baulera 2', l:'Semisótano', m2:'2,45', p:2500},
+    {id:'B3', t:'B', n:'Baulera 3', l:'Semisótano', m2:'2,20', p:2500}, {id:'B4', t:'B', n:'Baulera 4', l:'Semisótano', m2:'3,38', p:2500},
+    {id:'B5', t:'B', n:'Baulera 5', l:'Semisótano', m2:'5,58', p:2500}, {id:'B6', t:'B', n:'Baulera 6', l:'Semisótano', m2:'3,25', p:2500},
+    {id:'B7', t:'B', n:'Baulera 7', l:'Planta baja', m2:'1,88', p:3000}, {id:'B8', t:'B', n:'Baulera 8', l:'Planta baja', m2:'1,88', p:3000}
+  ];
+  const WA = '59160744425';
+
+  /* ====== utilidades ====== */
+  const r2 = x => Math.round(Number(x.toFixed(4)) * 100) / 100;
+  const r0 = x => Math.round(Number(x.toFixed(2)));
+  const miles = n => r0(n).toLocaleString('es-BO');
+  const fmt = n => '$us ' + (r2(n)).toLocaleString('es-BO', {minimumFractionDigits:0, maximumFractionDigits:2});
+  const pct = n => (Math.round(n * 100) / 100).toLocaleString('es-BO', {maximumFractionDigits:2});
+  const lista = (t, piso) => r2(TIPOS[t].m2 * P.pm2[piso]);
+  const desc = x => x >= 100 ? P.d100 : x >= 60 ? r2(P.d60 + (x - 60) / 40 * (P.d100 - P.d60)) : x >= 40 ? r2(P.d40 + (x - 40) / 20 * (P.d60 - P.d40)) : 0;
+  const m2txt = m => String(m).replace('.', ',');
+
+  /* ====== secciones por tipo ====== */
+  const cont = document.getElementById('unidades');
+  cont.innerHTML = Object.entries(TIPOS).map(([k, t]) => {
+    const filas = Object.keys(P.pm2).map(piso => { const L = r0(lista(k, piso));
+      return '<tr><td>Piso ' + piso + '</td><td>' + miles(P.pm2[piso]) + '</td><td>' + miles(L) + '</td><td class="dest">' + miles(L * .20) + '</td>' +
+        '<td>' + miles(L * (1 - P.d40 / 100)) + '</td><td>' + miles(L * (1 - P.d60 / 100)) + '</td><td class="dest">' + miles(L * (1 - P.d100 / 100)) + '</td></tr>'; }).join('');
+    const L1 = r0(lista(k, 1));
+    return '<section class="unidad" id="' + t.id + '"><div class="wrap">' +
+      '<div class="u-top"><div class="u-img"><img src="/img/' + t.img + '" alt="Vista isométrica del departamento ' + t.n + '" loading="lazy"></div>' +
+      '<div><div class="eyebrow">' + t.dorm + ' · ' + t.n + '</div><div class="raya"></div><h2>' + t.tit + '</h2>' +
+      '<p class="u-m2">' + m2txt(t.m2) + ' <small>m²</small></p>' +
+      '<ul class="chips">' + t.chips.map(c => '<li>' + c + '</li>').join('') + '</ul>' +
+      '<div class="desde"><div><span>Desde</span><b>$us ' + miles(L1) + '</b></div><div><span>Entra con</span><b>$us ' + miles(L1 * .2) + '</b></div><div><span>Al contado desde</span><b>$us ' + miles(L1 * (1 - P.d100 / 100)) + '</b></div></div>' +
+      '<div class="u-acc"><button class="btn btn-terra" data-sim="' + k + '">Simular este departamento</button>' +
+      '<a class="btn btn-borde" target="_blank" rel="noopener" href="https://wa.me/' + WA + '?text=' + encodeURIComponent('Hola, me interesa el departamento ' + t.n + ' (' + t.dorm + ', ' + m2txt(t.m2) + ' m²) de Torre Toscana. ¿Qué pisos están disponibles?') + '">Consultar disponibilidad</a></div></div></div>' +
+      '<p class="desliza">Desliza la tabla → para ver los descuentos</p><div class="tabla-wrap"><table class="precios"><thead><tr><th>Piso</th><th>Precio m²</th><th>Precio lista</th><th class="dest">Entra con<small>20%</small></th><th>40% a la firma<small>−' + pct(P.d40) + '%</small></th><th>60% a la firma<small>−' + pct(P.d60) + '%</small></th><th class="dest">Al contado<small>−' + pct(P.d100) + '%</small></th></tr></thead><tbody>' + filas + '</tbody></table></div>' +
+      '<p class="nota-t">Precios en $us. Las columnas de 40%, 60% y contado muestran el precio final con su descuento. "Entra con" es el 20% del precio de lista.</p>' +
+      '<div class="cond"><div><b>Reserva $us ' + miles(P.reserva) + '</b><span>Congela tu precio</span></div><div><b>' + P.minimo + '% a la firma</b><span>Pago mínimo para entrar</span></div>' +
+      '<div><b>Saldo contra entrega</b><span>Lo pagas en ' + P.entrega + '</span></div><div><b>O crédito directo</b><span>Saldo hasta ' + P.credito + '</span></div></div>' +
+      '</div></section>';
+  }).join('');
+
+  /* ====== tabla de parqueos y bauleras ====== */
+  const tab = (tit, rows, head) => '<div><h3>' + tit + '</h3><div class="tabla-wrap" style="margin-top:0"><table class="precios" style="min-width:0"><thead><tr>' + head + '</tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+  document.getElementById('pq').innerHTML =
+    tab('Parqueos', EXTRAS.filter(e => e.t === 'P').map(e => '<tr><td>' + e.n + '</td><td>' + e.l + '</td><td>12,5 m²</td><td class="dest">' + miles(e.p) + '</td></tr>').join(''), '<th>Parqueo</th><th>Nivel</th><th>Área</th><th class="dest">Precio</th>') +
+    tab('Bauleras', EXTRAS.filter(e => e.t === 'B').map(e => '<tr><td>' + e.n + '</td><td>' + e.l + '</td><td>' + e.m2 + ' m²</td><td class="dest">' + miles(e.p) + '</td></tr>').join(''), '<th>Baulera</th><th>Nivel</th><th>Área</th><th class="dest">Precio</th>');
+
+  /* ====== simulador ====== */
+  const S = {tipo:'A', piso:1, parq:'', baul:'', pct:20, modo:'entrega'};
+  const $ = id => document.getElementById(id);
+  $('sTipo').innerHTML = Object.entries(TIPOS).map(([k, t]) => '<option value="' + k + '">' + t.n + ' · ' + t.dorm + ' · ' + m2txt(t.m2) + ' m²</option>').join('');
+  const pisos = () => { $('sPiso').innerHTML = Object.keys(P.pm2).map(p => '<option value="' + p + '"' + (+p === S.piso ? ' selected' : '') + '>Piso ' + p + ' · ' + fmt(lista(S.tipo, p)) + '</option>').join(''); };
+  $('sParq').innerHTML = '<option value="">Sin parqueo</option>' + EXTRAS.filter(e => e.t === 'P').map(e => '<option value="' + e.id + '">' + e.n + ' · ' + e.l + ' · ' + fmt(e.p) + '</option>').join('');
+  $('sBaul').innerHTML = '<option value="">Sin baulera</option>' + EXTRAS.filter(e => e.t === 'B').map(e => '<option value="' + e.id + '">' + e.n + ' · ' + e.m2 + ' m² · ' + fmt(e.p) + '</option>').join('');
+  $('planes').innerHTML = [[20, '20%', 'mínimo'], [40, '40%', '−' + pct(P.d40) + '%'], [60, '60%', '−' + pct(P.d60) + '%'], [100, 'Contado', '−' + pct(P.d100) + '%']]
+    .map(([v, t, s]) => '<button type="button" data-p="' + v + '"><span>' + t + '</span><small>' + s + '</small></button>').join('');
+  const ex = id => EXTRAS.find(e => e.id === id);
+  const total = x => { const L = lista(S.tipo, S.piso); return L - L * desc(x) / 100 + (S.parq ? ex(S.parq).p : 0) + (S.baul ? ex(S.baul).p : 0); };
+  const montoDe = x => r2(total(x) * x / 100);
+  const pctDe = m => { if (m >= total(100)) return 100; let lo = 0, hi = 100; for (let i = 0; i < 60; i++) { const mid = (lo + hi) / 2; if (total(mid) * mid / 100 < m) lo = mid; else hi = mid; } return (lo + hi) / 2; };
+
+  function calc(){
+    const t = TIPOS[S.tipo], L = lista(S.tipo, S.piso), x = Math.min(Math.max(S.pct, 0), 100), d = desc(x);
+    const r = {t, L, x, d, desc: L * d / 100, parq: S.parq ? ex(S.parq) : null, baul: S.baul ? ex(S.baul) : null};
+    r.total = total(x); r.firma = r.total * x / 100; r.neta = Math.max(r.firma - P.reserva, 0); r.saldo = r.total - r.firma;
+    r.pm2 = (L - r.desc) / t.m2;
+    return r;
+  }
+  function resumen(r){
+    const l = ['Hola, quiero esta cotización de Torre Toscana:', t2(r)];
+    if (r.parq) l.push(r.parq.n + ' (' + r.parq.l + '): ' + fmt(r.parq.p));
+    if (r.baul) l.push(r.baul.n + ' (' + r.baul.l + '): ' + fmt(r.baul.p));
+    if (S.modo === 'credito') { l.push('Pago a la firma: ' + pct(r.x) + '%'); l.push('Quiero pagar el saldo con crédito directo hasta ' + P.credito + '. ¿Cuál sería mi cuota?'); }
+    else {
+      if (r.d) l.push('Descuento ' + pct(r.d) + '%: −' + fmt(r.desc));
+      l.push('Precio final: ' + fmt(r.total));
+      l.push('Pago a la firma (' + pct(r.x) + '%): ' + fmt(r.firma) + (r.x < 100 ? '' : ' (al contado)'));
+      if (r.x < 100) l.push('Saldo contra entrega (' + P.entrega + '): ' + fmt(r.saldo));
+      l.push('¿Este piso está disponible?');
+    }
+    return l.join('\n');
+  }
+  const t2 = r => r.t.n + ' (' + r.t.dorm + ', ' + m2txt(r.t.m2) + ' m²), piso ' + S.piso + ': ' + fmt(r.L);
+  function pintar(){
+    const r = calc(), out = $('resultado');
+    document.querySelectorAll('#planes button').forEach(b => b.setAttribute('aria-pressed', String(Math.abs(+b.dataset.p - S.pct) < .005)));
+    document.querySelectorAll('#modos button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.m === S.modo)));
+    $('modos').style.display = S.pct >= 100 ? 'none' : '';
+    let h = '<h3>Tu cotización</h3>';
+    const fila = (a, v, cls) => '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + a + '</td><td>' + v + '</td></tr>';
+    if (S.modo === 'credito' && S.pct < 100) {
+      h += '<div class="grande"><span>A pagar a la firma</span><b>' + pct(r.x) + '%</b><small>' + r.t.n + ' · piso ' + S.piso + '</small></div>' +
+        '<div class="credito"><b>Crédito directo hasta ' + P.credito + '.</b> Pagas el saldo en cuotas con la constructora. Escríbenos y te enviamos tu plan de cuotas con el monto exacto.</div>';
+    } else {
+      h += '<div class="grande"><span>' + (S.pct >= 100 ? 'Total al contado' : 'A pagar a la firma') + '</span><b>' + fmt(S.pct >= 100 ? r.total : r.neta) + '</b><small>' +
+        (S.pct >= 100 ? 'Ahorras ' + fmt(r.desc) + ' (' + pct(r.d) + '%)' : 'Ya descontada la reserva de ' + fmt(P.reserva)) + '</small></div>' +
+        '<table class="desg"><tbody>' +
+        fila('Departamento ' + r.t.n + ' · piso ' + S.piso, fmt(r.L)) +
+        (r.d ? fila('Descuento ' + pct(r.d) + '%', '−' + fmt(r.desc), 'neg') : '') +
+        (r.parq ? fila(r.parq.n, fmt(r.parq.p)) : '') + (r.baul ? fila(r.baul.n, fmt(r.baul.p)) : '') +
+        fila('Precio final', fmt(r.total), 'f') +
+        fila('Costo por m² (' + m2txt(r.t.m2) + ' m²)', fmt(r.pm2)) +
+        fila('Pago a la firma (' + pct(r.x) + '%)', fmt(r.firma)) +
+        fila('Menos reserva', '−' + fmt(P.reserva), 'neg') +
+        fila('A pagar a la firma', fmt(r.neta), 'f') +
+        (r.x < 100 ? fila('Saldo contra entrega (' + P.entrega + ')', fmt(r.saldo)) : '') +
+        '</tbody></table>';
+    }
+    if (S.pct < P.minimo) h += '<p class="aviso">El pago mínimo a la firma es ' + P.minimo + '% (' + fmt(montoDe(P.minimo)) + ').</p>';
+    h += '<a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/' + WA + '?text=' + encodeURIComponent(resumen(r)) + '">' + (S.modo === 'credito' && S.pct < 100 ? 'Pedir mi plan de cuotas por WhatsApp' : 'Enviar esta cotización por WhatsApp') + '</a>';
+    out.innerHTML = h;
+  }
+  const syncInputs = () => { $('sPct').value = Math.round(S.pct * 100) / 100; $('sMon').value = montoDe(S.pct); };
+  $('sTipo').addEventListener('change', e => { S.tipo = e.target.value; pisos(); syncInputs(); pintar(); });
+  $('sPiso').addEventListener('change', e => { S.piso = +e.target.value; syncInputs(); pintar(); });
+  $('sParq').addEventListener('change', e => { S.parq = e.target.value; syncInputs(); pintar(); });
+  $('sBaul').addEventListener('change', e => { S.baul = e.target.value; syncInputs(); pintar(); });
+  document.querySelectorAll('#planes button').forEach(b => b.addEventListener('click', () => { S.pct = +b.dataset.p; syncInputs(); pintar(); }));
+  document.querySelectorAll('#modos button').forEach(b => b.addEventListener('click', () => { S.modo = b.dataset.m; pintar(); }));
+  $('sPct').addEventListener('input', e => { const v = parseFloat(String(e.target.value).replace(',', '.')); S.pct = isFinite(v) ? Math.min(Math.max(v, 0), 100) : 0; $('sMon').value = montoDe(S.pct); pintar(); });
+  $('sMon').addEventListener('input', e => { const v = parseFloat(String(e.target.value).replace(',', '.')); S.pct = isFinite(v) && v > 0 ? pctDe(v) : 0; $('sPct').value = Math.round(S.pct * 100) / 100; pintar(); });
+  document.querySelectorAll('[data-sim]').forEach(b => b.addEventListener('click', () => {
+    S.tipo = b.dataset.sim; $('sTipo').value = S.tipo; pisos(); syncInputs(); pintar();
+    document.getElementById('simulador').scrollIntoView({behavior: 'smooth'});
+  }));
+  pisos(); syncInputs(); pintar();
+
+  /* ====== menú móvil ====== */
+  const btn = $('menuBtn'), links = $('links');
+  btn.addEventListener('click', () => { const o = links.classList.toggle('open'); btn.setAttribute('aria-expanded', o); });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { links.classList.remove('open'); btn.setAttribute('aria-expanded', false); }));
+})();
+</script>
+</body>
+</html>
