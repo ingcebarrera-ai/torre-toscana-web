@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Torre Toscana · Departamentos en Zona Norte, Cochabamba</title>
+<meta name="description" content="Torre Toscana: edificio de 24 departamentos de 1 y 2 dormitorios a pasos del Parque del Arquitecto, Zona Norte de Cochabamba. Entrega abril 2027. Entra con el 20%.">
+<meta property="og:title" content="Torre Toscana · Vive a pasos del Parque del Arquitecto">
+<meta property="og:description" content="24 departamentos de 1 y 2 dormitorios en Zona Norte, Cochabamba. Entrega abril 2027.">
+<meta property="og:image" content="https://cbarrera.com/img/fachada-full.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#3e4834">
+<link rel="icon" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,400;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#3e4834; --verde-2:#2f3727; --terra:#9c5234; --terra-2:#b86a49; --durazno:#eadace;
+  --salvia:#7f8a71; --crema:#f6f3ee; --crema-2:#efe9e1; --tinta:#262a22; --gris:#6a6a62; --linea:#dfd8cc;
+  --wa:#1f8f4e; --max:1200px;
+  --serif:"Lora",Georgia,serif; --sans:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--crema);color:var(--tinta);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+@media (max-width:600px){.wrap{padding:0 16px}}
+
+/* ------- navegación ------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,box-shadow .3s}
+.nav.solid{background:rgba(246,243,238,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--linea)}
+.nav .wrap{display:flex;align-items:center;gap:20px;height:72px}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto}
+.marca img{height:38px;width:auto}
+.marca span{font-weight:600;font-size:18px;letter-spacing:.01em;color:var(--verde)}
+.links{display:flex;gap:22px;align-items:center}
+.links a{text-decoration:none;font-size:14px;font-weight:500;color:var(--tinta);opacity:.85}
+.links a:hover{opacity:1;color:var(--terra)}
+.links a.btn{color:#fff;opacity:1}.links a.btn:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;border:0;border-radius:999px;padding:13px 24px;font:600 15px var(--sans);cursor:pointer;transition:transform .15s,background .2s}
+.btn:active{transform:scale(.98)}
+.btn-terra{background:var(--terra);color:#fff}.btn-terra:hover{background:var(--terra-2)}
+.btn-verde{background:var(--verde);color:#fff}.btn-verde:hover{background:var(--verde-2)}
+.btn-borde{background:transparent;color:var(--verde);box-shadow:inset 0 0 0 1.5px var(--verde)}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-sm{padding:9px 18px;font-size:14px}
+.menu-btn{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer;color:var(--verde)}
+@media (max-width:980px){
+  .links{position:fixed;inset:72px 0 auto 0;background:var(--crema);flex-direction:column;align-items:stretch;gap:0;padding:8px 16px 20px;box-shadow:0 12px 24px rgba(0,0,0,.08);transform:translateY(-130%);transition:transform .3s;max-height:calc(100vh - 72px);overflow:auto}
+  .links.open{transform:none}
+  .links a{padding:14px 4px;border-bottom:1px solid var(--linea);font-size:16px}
+  .links .btn{margin-top:14px;border-bottom:0}
+  .menu-btn{display:block}
+}
+:focus-visible{outline:3px solid var(--terra);outline-offset:3px}
+
+/* ------- textos ------- */
+.eyebrow{font-size:12px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--gris)}
+.raya{width:48px;height:2px;background:var(--terra);margin:14px 0 18px}
+h1,h2{font-weight:300;line-height:1.08;margin:0;letter-spacing:-.01em}
+h1 b,h2 b{display:block;font-weight:700;color:var(--verde);letter-spacing:-.015em}
+h2{font-size:clamp(30px,4.2vw,48px)}
+.lead{font-size:clamp(16px,1.6vw,18px);color:var(--gris);max-width:560px;margin:18px 0 0}
+.serif{font-family:var(--serif);font-style:italic;color:var(--terra)}
+section{padding:110px 0}
+@media (max-width:700px){section{padding:72px 0}}
+
+/* ------- hero ------- */
+.hero{padding:72px 0 0;min-height:100vh;display:flex;align-items:center;background:linear-gradient(180deg,var(--crema) 0%,var(--crema-2) 100%)}
+.hero .wrap{display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center;width:100%}
+.hero h1{font-size:clamp(38px,5.6vw,72px)}
+.hero h1 b{text-transform:uppercase}
+.hero .acciones{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.hero-img{height:min(calc(100vh - 110px),980px);aspect-ratio:1305/2250;border-radius:220px 220px 14px 14px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(38,42,34,.45)}
+.hero-img img{width:100%;height:100%;object-fit:cover}
+.datos{display:flex;flex-wrap:wrap;gap:0;margin-top:44px;border-top:1px solid var(--linea)}
+.datos div{padding:18px 26px 0 0;margin-right:26px}
+.datos b{display:block;font-size:24px;font-weight:600;color:var(--verde);line-height:1.1}
+.datos span{font-size:13px;color:var(--gris)}
+@media (max-width:860px){
+  .hero{min-height:0;padding-top:96px}
+  .hero .wrap{grid-template-columns:1fr;gap:36px}
+  .hero-img{height:auto;width:100%;max-width:440px;margin:0 auto;border-radius:180px 180px 14px 14px}
+  .hero-img img{height:auto}
+}
+
+/* ------- cinta ------- */
+.cinta{background:var(--verde);color:var(--durazno);padding:22px 0}
+.cinta .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+.cinta p{margin:0;font-size:15px}
+.cinta b{color:#fff;font-weight:600}
+.cinta .serif{color:var(--durazno);font-size:20px}
+
+/* ------- ubicación ------- */
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+@media (max-width:900px){.dos{grid-template-columns:1fr;gap:40px}}
+.foto{border-radius:14px;overflow:hidden;box-shadow:0 24px 48px -28px rgba(38,42,34,.5)}
+.foto img{width:100%;height:100%;object-fit:cover}
+.cerca{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:14px 24px}
+.cerca li{border-top:1px solid var(--linea);padding-top:12px}
+.cerca b{display:block;font-weight:600;font-size:15px}
+.cerca span{font-size:13px;color:var(--gris)}
+.direccion{margin-top:26px;font-size:15px;color:var(--tinta)}
+.mapa{margin-top:64px;border-radius:14px;overflow:hidden;border:1px solid var(--linea);background:#e9e5de}
+.mapa iframe{display:block;width:100%;height:420px;border:0}
+@media (max-width:700px){.mapa iframe{height:320px}}
+
+/* ------- departamentos ------- */
+.oscuro{background:#3a3a3a;color:#f1ede6}
+.oscuro .eyebrow{color:#bdb6aa}.oscuro h2 b{color:var(--durazno)}.oscuro .lead{color:#cfc8bc}
+.tipos{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+@media (max-width:900px){.tipos{grid-template-columns:1fr}}
+.tipo{background:#333;border:1px solid #4a4a4a;border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.tipo img{aspect-ratio:1400/786;object-fit:cover}
+.tipo div{padding:20px 22px 24px}
+.tipo h3{margin:0;font-weight:600;font-size:20px;color:#fff}
+.tipo .m2{font-size:34px;font-weight:700;color:var(--durazno);line-height:1.1;margin:6px 0 4px}
+.tipo .m2 small{font-size:16px;font-weight:500}
+.tipo ul{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.tipo li{font-size:12.5px;border:1px solid #5a5a5a;border-radius:999px;padding:4px 10px;color:#ddd6ca}
+.planta{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;margin-top:80px;align-items:center}
+.planta .foto{background:#fff;padding:10px}
+@media (max-width:900px){.planta{grid-template-columns:1fr}}
+
+/* ------- interiores ------- */
+.galeria{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:200px;gap:12px;margin-top:52px}
+.galeria button{padding:0;border:0;border-radius:12px;overflow:hidden;cursor:zoom-in;background:#ddd}
+.galeria img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.galeria button:hover img{transform:scale(1.04)}
+.g1{grid-column:span 4;grid-row:span 2}.g2{grid-column:span 2;grid-row:span 1}.g3{grid-column:span 2}
+.g4{grid-column:span 2}.g5{grid-column:span 2}.g6{grid-column:span 2}
+@media (max-width:760px){.galeria{grid-template-columns:1fr 1fr;grid-auto-rows:150px}.g1{grid-column:span 2;grid-row:span 2}.g2,.g3,.g4,.g5,.g6{grid-column:span 1}}
+.lightbox{position:fixed;inset:0;z-index:90;background:rgba(15,17,14,.94);display:flex;align-items:center;justify-content:center;padding:20px}
+.lightbox img{max-height:90vh;width:auto;max-width:100%;border-radius:8px}
+.lightbox button{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.12);color:#fff;border:0;width:46px;height:46px;border-radius:50%;font-size:20px;cursor:pointer}
+
+/* ------- cocina ------- */
+.cocina{background:var(--crema-2)}
+.equipos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px}
+.equipos div{background:#fff;border-radius:12px;padding:16px;border:1px solid var(--linea)}
+.equipos b{display:block;font-size:14px;font-weight:600;color:var(--verde)}
+.equipos span{font-size:12.5px;color:var(--gris)}
+@media (max-width:520px){.equipos{grid-template-columns:1fr}}
+
+/* ------- amenidades ------- */
+.amen{display:grid;grid-template-columns:1.3fr 1fr;grid-template-rows:auto auto;gap:14px;margin-top:52px}
+.amen .a1{grid-row:span 2}
+.amen figure{margin:0;position:relative;border-radius:14px;overflow:hidden;min-height:240px}
+.amen figure img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.amen figcaption{position:absolute;left:14px;bottom:14px;background:rgba(246,243,238,.94);color:var(--verde);font-weight:600;font-size:14px;border-radius:999px;padding:8px 16px}
+@media (max-width:800px){.amen{grid-template-columns:1fr}.amen .a1{grid-row:auto;min-height:320px}}
+.iconos{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:22px}
+.iconos div{background:#fff;border:1px solid var(--linea);border-radius:12px;padding:16px 12px;text-align:center}
+.iconos svg{width:28px;height:28px;color:var(--terra)}
+.iconos b{display:block;font-size:14px;font-weight:600;margin-top:6px;color:var(--verde)}
+.iconos span{font-size:12px;color:var(--gris)}
+@media (max-width:900px){.iconos{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:480px){.iconos{grid-template-columns:repeat(2,1fr)}}
+
+/* ------- acabados ------- */
+.acab{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:52px}
+.acab div{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:24px}
+.acab h3{margin:0 0 12px;font-size:13px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--terra)}
+.acab ul{margin:0;padding:0;list-style:none}
+.acab li{font-size:14.5px;padding:7px 0;border-top:1px solid var(--crema-2)}
+.acab li:first-child{border-top:0}
+@media (max-width:1000px){.acab{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.acab{grid-template-columns:1fr}}
+
+/* ------- parqueos ------- */
+.planos{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:48px;max-width:860px}
+.planos figure{margin:0}
+.planos img{border-radius:12px;box-shadow:0 20px 40px -26px rgba(38,42,34,.55)}
+.planos figcaption{margin-top:12px;font-size:14px;color:var(--gris)}
+.planos figcaption b{display:block;color:var(--verde);font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+@media (max-width:560px){.planos{gap:12px}.planos figcaption{font-size:12.5px}}
+
+/* ------- pagos ------- */
+.pagos{background:var(--verde);color:#efe9df}
+.pagos .eyebrow{color:#c9cdbf}.pagos h2{color:#fff}.pagos h2 b{color:var(--durazno)}.pagos .lead{color:#d4d8c9}
+.pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px}
+.paso{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:26px}
+.paso .n{font-size:44px;font-weight:700;color:var(--terra-2);line-height:1}
+.paso h3{margin:10px 0 8px;font-size:18px;font-weight:600;color:#fff}
+.paso p{margin:0;font-size:14.5px;color:#d4d8c9}
+@media (max-width:860px){.pasos{grid-template-columns:1fr}}
+.modal-tabla{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.modal-tabla div{background:#fff;color:var(--tinta);border-radius:14px;padding:20px;text-align:center}
+.modal-tabla b{display:block;font-size:28px;font-weight:700;color:var(--verde);line-height:1.1}
+.modal-tabla span{font-size:13px;color:var(--gris)}
+.modal-tabla .desc{display:inline-block;margin-top:8px;background:var(--durazno);color:var(--terra);font-weight:600;font-size:13px;border-radius:999px;padding:3px 10px}
+@media (max-width:760px){.modal-tabla{grid-template-columns:1fr 1fr}}
+.saldo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.saldo div{border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:18px 20px}
+.saldo b{color:#fff;font-weight:600}
+.saldo p{margin:4px 0 0;font-size:14px;color:#d4d8c9}
+@media (max-width:640px){.saldo{grid-template-columns:1fr}}
+.cta-disp{margin-top:36px;display:flex;flex-wrap:wrap;align-items:center;gap:18px;background:rgba(0,0,0,.18);border-radius:16px;padding:22px 24px}
+.cta-disp p{margin:0;flex:1;min-width:240px;color:#e3e6da}
+.cta-disp b{color:#fff}
+
+/* ------- obra ------- */
+.obra{display:grid;grid-template-columns:1fr 1fr .5625fr;gap:14px;margin-top:48px;align-items:start}
+.obra img{border-radius:14px;width:100%;aspect-ratio:1/1;object-fit:cover}
+.obra video{width:100%;aspect-ratio:9/16;border-radius:14px;background:#000;object-fit:cover;display:block}
+@media (max-width:860px){.obra{grid-template-columns:1fr 1fr}.obra .ov{grid-column:span 2;width:100%;max-width:340px;margin:0 auto}}
+.seis{display:inline-flex;align-items:baseline;gap:10px;margin-top:22px;color:var(--terra)}
+.seis b{font-size:64px;font-weight:700;line-height:1}
+.seis span{font-size:15px;font-weight:600;color:var(--verde);text-transform:uppercase;letter-spacing:.14em}
+
+/* ------- brochures y videos ------- */
+.recursos{background:var(--crema-2)}
+.docs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:48px}
+@media (max-width:860px){.docs{grid-template-columns:1fr}}
+.doc{display:grid;grid-template-columns:150px 1fr;gap:20px;background:#fff;border:1px solid var(--linea);border-radius:16px;padding:18px;align-items:center}
+.doc img{width:150px;height:auto;border-radius:8px;border:1px solid var(--linea)}
+.doc h3{margin:0;font-size:19px;font-weight:600;color:var(--verde)}
+.doc p{margin:4px 0 0;font-size:13.5px;color:var(--gris)}
+@media (max-width:480px){.doc{grid-template-columns:96px 1fr;gap:14px}.doc img{width:96px}}
+.bts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.bts a,.bts button{flex:1 1 auto;min-width:88px;text-align:center;text-decoration:none;border:1.5px solid var(--verde);background:transparent;color:var(--verde);border-radius:999px;padding:9px 14px;font:600 13.5px var(--sans);cursor:pointer}
+.bts .p{background:var(--verde);color:#fff}
+.bts .w{border-color:var(--wa);color:var(--wa)}
+.bts .w.listo{background:var(--wa);color:#fff}
+.estado{font-size:12.5px;color:var(--gris);margin-top:8px;min-height:18px}
+.vids{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:18px;margin-top:18px;align-items:start}
+@media (max-width:1000px){.vids{grid-template-columns:1fr 1fr}.vids .vid:first-child{grid-column:span 2}}
+@media (max-width:600px){.vids{grid-template-columns:1fr}.vids .vid:first-child{grid-column:auto}}
+.vid{background:#fff;border:1px solid var(--linea);border-radius:16px;padding:14px}
+.vid video{width:100%;border-radius:10px;background:#000;display:block}
+.vid.vert video{max-height:640px;width:auto;max-width:100%;margin:0 auto}
+.vid h3{margin:12px 0 0;font-size:17px;font-weight:600;color:var(--verde)}
+.vid p{margin:2px 0 0;font-size:13px;color:var(--gris)}
+
+/* ------- contacto ------- */
+.contacto{position:relative;color:#fff;padding:0;overflow:hidden;background:var(--verde-2)}
+.contacto .wrap{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;padding-top:96px;padding-bottom:96px}
+.contacto .fondo{position:absolute;inset:0;background:url(img/terraza-noche.jpg) center/cover;opacity:.28}
+.contacto .wrap{position:relative}
+.contacto h2{color:#fff}.contacto h2 b{color:var(--durazno)}
+.contacto p{color:#dde0d4;max-width:520px}
+.contacto .datos-c{font-size:14px;color:#cfd3c5;margin-top:18px}
+.contacto .acciones{display:flex;flex-direction:column;gap:12px;min-width:260px}
+@media (max-width:820px){.contacto .wrap{grid-template-columns:1fr}.contacto .acciones{min-width:0}}
+footer{background:#1f241a;color:#a9ae9f;font-size:13px;padding:28px 0 calc(28px + env(safe-area-inset-bottom,0px))}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+footer img{height:60px;width:auto}
+
+/* ------- whatsapp flotante ------- */
+.flota{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;width:58px;height:58px;border-radius:50%;background:var(--wa);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.flota svg{width:30px;height:30px;color:#fff}
+
+/* ------- aparición ------- */
+.rev{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.rev.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rev{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="marca" href="#inicio" aria-label="Torre Toscana, inicio"><img src="img/icono.png" alt=""><span>Torre Toscana</span></a>
+    <nav class="links" id="links" aria-label="Secciones">
+      <a href="#ubicacion">Ubicación</a>
+      <a href="#departamentos">Departamentos</a>
+      <a href="#amenidades">Amenidades</a>
+      <a href="#acabados">Acabados</a>
+      <a href="#pagos">Plan de pagos</a>
+      <a href="#obra">Avance</a>
+      <a href="#brochures">Brochures</a>
+      <a class="btn btn-terra btn-sm" href="disponibilidad/">Disponibilidad</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="links">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Cochabamba · Zona Norte</div>
+      <div class="raya"></div>
+      <h1>Vive a pasos del <b>Parque del Arquitecto.</b></h1>
+      <p class="lead">Un edificio de 10 pisos, terraza incluida, con solo 24 departamentos de 1 y 2 dormitorios, cocina Hisense incluida y piscina en el último piso. <span class="serif">Llaves en abril de 2027.</span></p>
+      <div class="acciones">
+        <a class="btn btn-terra" href="disponibilidad/">Ver disponibilidad y precios</a>
+        <a class="btn btn-borde" href="https://wa.me/59160744425?text=Hola%2C%20me%20interesa%20Torre%20Toscana" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+      </div>
+      <div class="datos">
+        <div><b>10</b><span>pisos</span></div>
+        <div><b>24</b><span>departamentos</span></div>
+        <div><b>1 y 2</b><span>dormitorios</span></div>
+        <div><b>35 m²</b><span>desde</span></div>
+        <div><b>20%</b><span>para entrar</span></div>
+      </div>
+    </div>
+    <div class="hero-img"><img src="img/fachada.jpg" alt="Fachada de Torre Toscana al atardecer" fetchpriority="high"></div>
+  </div>
+</section>
+
+<div class="cinta">
+  <div class="wrap">
+    <p><span class="serif">A 6 meses de la entrega</span></p>
+    <p>Reserva con <b>$us 500</b> · Entra con el <b>20%</b> · Saldo <b>contra entrega</b> o con <b>crédito directo</b></p>
+  </div>
+</div>
+
+<!-- ================= UBICACIÓN ================= -->
+<section id="ubicacion">
+  <div class="wrap">
+    <div class="dos">
+      <div class="rev">
+        <div class="eyebrow">Ubicación</div>
+        <div class="raya"></div>
+        <h2>Sal a correr al parque. <b>Vuelve caminando a casa.</b></h2>
+        <p class="lead">En la mejor zona residencial de Cochabamba: el Parque del Arquitecto es tu patio, y tienes la universidad, el supermercado y la Av. América a minutos.</p>
+        <ul class="cerca">
+          <li><b>Parque del Arquitecto</b><span>a pasos</span></li>
+          <li><b>Universidad Católica</b><span>educación</span></li>
+          <li><b>IC Norte · Multicenter</b><span>supermercado y compras</span></li>
+          <li><b>Av. América</b><span>conectividad</span></li>
+          <li><b>Gym Carbono · pádel</b><span>deporte</span></li>
+          <li><b>Para vivir o alquilar</b><span>inversión que se alquila</span></li>
+        </ul>
+        <p class="direccion"><b>Calle Hermógenes Sejas esq. Bernardo Monteagudo</b>, entre Miguel de Aguirre y A. García. Zona Norte, Cochabamba.</p>
+      </div>
+      <div class="foto rev"><img src="img/parque.jpg" alt="Persona corriendo en el Parque del Arquitecto" loading="lazy"></div>
+    </div>
+    <div class="mapa rev">
+      <iframe title="Mapa de ubicación de Torre Toscana" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Calle+Herm%C3%B3genes+Sejas+y+Bernardo+Monteagudo,+Cochabamba,+Bolivia&z=16&output=embed"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DEPARTAMENTOS ================= -->
+<section class="oscuro" id="departamentos">
+  <div class="wrap">
+    <div class="rev">
+      <div class="eyebrow">Departamentos</div>
+      <div class="raya"></div>
+      <h2>Solo 3 departamentos <b>por piso.</b></h2>
+      <p class="lead">Tres tipologías en ocho pisos de departamentos. Espacios pensados para vivir con comodidad o para una inversión que se alquila fácil.</p>
+    </div>
+    <div class="tipos">
+      <article class="tipo rev">
+        <img src="img/tipo-a.jpg" alt="Vista isométrica del departamento Tipo A" loading="lazy">
+        <div><h3>Tipo A · 1 dormitorio</h3><p class="m2">35 <small>m²</small></p>
+          <ul><li>1 dormitorio</li><li>1 baño</li><li>Living-comedor</li><li>Cocina equipada</li></ul></div>
+      </article>
+      <article class="tipo rev">
+        <img src="img/tipo-b.jpg" alt="Vista isométrica del departamento Tipo B" loading="lazy">
+        <div><h3>Tipo B · 2 dormitorios</h3><p class="m2">61,44 <small>m²</small></p>
+          <ul><li>2 dormitorios</li><li>Baño completo</li><li>Living y comedor</li><li>Balcón</li><li>Cocina equipada</li></ul></div>
+      </article>
+      <article class="tipo rev">
+        <img src="img/tipo-c.jpg" alt="Vista isométrica del departamento Tipo C" loading="lazy">
+        <div><h3>Tipo C · 1 dormitorio</h3><p class="m2">36,14 <small>m²</small></p>
+          <ul><li>1 dormitorio</li><li>1 baño</li><li>Living-comedor</li><li>Cocina equipada</li></ul></div>
+      </article>
+    </div>
+    <div class="planta">
+      <div class="foto rev"><img src="img/planta-tipo.jpg" alt="Planta tipo, pisos 1 al 8, con los tipos A, B y C" loading="lazy"></div>
+      <div class="rev">
+        <div class="eyebrow">Planta tipo · Pisos 1 al 8</div>
+        <div class="raya"></div>
+        <h2>Distribución <b>eficiente.</b></h2>
+        <p class="lead">Tres departamentos por piso alrededor del núcleo de ascensor y gradas. El Tipo B, de 2 dormitorios y con balcón, da a la Calle Bernardo Monteagudo; el Tipo A, a la Calle Hermógenes Sejas.</p>
+        <p class="lead" style="margin-top:12px">Tipo A · 35 m² &nbsp;·&nbsp; Tipo B · 61,44 m² &nbsp;·&nbsp; Tipo C · 36,14 m²</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INTERIORES ================= -->
+<section id="interiores">
+  <div class="wrap">
+    <div class="rev">
+      <div class="eyebrow">Interiores</div>
+      <div class="raya"></div>
+      <h2>Madera, luz cálida y <b>espacios que se sienten más grandes.</b></h2>
+    </div>
+    <div class="galeria rev" id="galeria">
+      <button class="g1" data-src="img/living.jpg"><img src="img/living.jpg" alt="Living comedor con ventanal" loading="lazy"></button>
+      <button class="g2" data-src="img/dormitorio.jpg"><img src="img/dormitorio.jpg" alt="Dormitorio principal" loading="lazy"></button>
+      <button class="g3" data-src="img/living-cocina.jpg"><img src="img/living-cocina.jpg" alt="Living y cocina" loading="lazy"></button>
+      <button class="g4" data-src="img/bano.jpg"><img src="img/bano.jpg" alt="Baño con box de vidrio templado" loading="lazy"></button>
+      <button class="g5" data-src="img/dormitorio-2.jpg"><img src="img/dormitorio-2.jpg" alt="Segundo dormitorio" loading="lazy"></button>
+      <button class="g6" data-src="img/living-2.jpg"><img src="img/living-2.jpg" alt="Living" loading="lazy"></button>
+    </div>
+    <p class="lead" style="font-size:13px;margin-top:14px">Imágenes referenciales.</p>
+  </div>
+</section>
+
+<!-- ================= COCINA ================= -->
+<section class="cocina">
+  <div class="wrap dos">
+    <div class="foto rev"><img src="img/cocina.jpg" alt="Cocina equipada con horno, encimera y campana Hisense" loading="lazy"></div>
+    <div class="rev">
+      <div class="eyebrow">Incluida en tu precio</div>
+      <div class="raya"></div>
+      <h2>Cocina equipada <b>Hisense.</b></h2>
+      <p class="lead">Cada departamento se entrega con encimera, campana y horno instalados. <span class="serif">Llegas y cocinas, sin gasto extra.</span></p>
+      <div class="equipos">
+        <div><b>Horno empotrable</b><span>67 L · 2.200 W</span></div>
+        <div><b>Encimera a gas</b><span>4 quemadores · inox</span></div>
+        <div><b>Campana</b><span>450 m³/h · LED</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AMENIDADES ================= -->
+<section id="amenidades">
+  <div class="wrap">
+    <div class="rev">
+      <div class="eyebrow">Áreas comunes · Último piso</div>
+      <div class="raya"></div>
+      <h2>El fin de semana <b>empieza en casa.</b></h2>
+      <p class="lead">En el último piso: piscina con deck, churrasquero techado y terraza con vista a la ciudad.</p>
+    </div>
+    <div class="amen">
+      <figure class="a1 rev"><img src="img/piscina.jpg" alt="Piscina con deck en el último piso" loading="lazy"><figcaption>Piscina con deck</figcaption></figure>
+      <figure class="rev"><img src="img/churrasquero.jpg" alt="Churrasquero techado" loading="lazy"><figcaption>Churrasquero techado</figcaption></figure>
+      <figure class="rev"><img src="img/terraza-noche.jpg" alt="Terraza con vista a la ciudad" loading="lazy"><figcaption>Terraza con vista</figcaption></figure>
+    </div>
+    <div class="iconos rev">
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 18c2 0 2-1.5 4-1.5S8 18 10 18s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M7 15V5a2 2 0 0 1 4 0M15 15V5a2 2 0 0 1 4 0M7 9h8"/></svg><b>Piscina</b><span>con deck</span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 10h16a8 8 0 0 1-16 0zM8 21l2-4M16 21l-2-4M9 6c0-1 1-1 1-2M13 6c0-1 1-1 1-2"/></svg><b>Churrasquero</b><span>techado</span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 21h18M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/></svg><b>Terraza</b><span>último piso</span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M12 3v18M9 9l-1.5 2h3zM15 13l1.5-2h-3z"/></svg><b>Ascensor</b><span>para 8 personas</span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 17h14M6 17l1.5-6h9l1.5 6M7 17v2M17 17v2"/><circle cx="8" cy="14.5" r=".8"/><circle cx="16" cy="14.5" r=".8"/></svg><b>Parqueos</b><span>semisótano y PB</span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 12h16M10 8h4M10 16h4"/></svg><b>Bauleras</b><span>privadas</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ACABADOS ================= -->
+<section id="acabados" style="background:#fff">
+  <div class="wrap">
+    <div class="rev">
+      <div class="eyebrow">Materiales y acabados</div>
+      <div class="raya"></div>
+      <h2>Marcas que conoces, <b>en cada rincón.</b></h2>
+    </div>
+    <div class="acab">
+      <div class="rev"><h3>Cocina</h3><ul><li>Mesón de granito</li><li>Muebles altos y bajos, melamina 15 mm</li><li>Salpicadera de cerámica premium</li><li>Lavaplatos Tramontina</li></ul></div>
+      <div class="rev"><h3>Baños</h3><ul><li>Box de vidrio templado 8 mm</li><li>Grifería FV · sanitarios Celite o similar</li><li>Cerámica premium en piso y muros</li><li>Mesón de granito o porcelanato</li></ul></div>
+      <div class="rev"><h3>Dormitorios y living</h3><ul><li>Piso flotante</li><li>Roperos con cierre lento</li><li>Puertas MDF 45 mm, marcos de madera maciza</li><li>Enlucido de yeso en muros y cielo raso</li></ul></div>
+      <div class="rev"><h3>Instalaciones</h3><ul><li>Cables Tigre antillamas</li><li>Iluminación 100% LED · fibra óptica</li><li>Gas independiente · calefón</li><li>Ventanas de aluminio, vidrio laminado</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PARQUEOS ================= -->
+<section id="parqueos">
+  <div class="wrap">
+    <div class="rev">
+      <div class="eyebrow">Parqueos y bauleras</div>
+      <div class="raya"></div>
+      <h2>Ubica <b>tu parqueo.</b></h2>
+      <p class="lead">10 parqueos y bauleras privadas en semisótano y planta baja, con acceso vehicular por la Calle Bernardo Monteagudo.</p>
+    </div>
+    <div class="planos">
+      <figure class="rev"><img src="img/plano-semisotano.jpg" alt="Plano del semisótano: parqueos 1 al 6 y bauleras 1 al 6" loading="lazy"><figcaption><b>Semisótano</b>Parqueos 1 al 6 · Bauleras 1 al 6</figcaption></figure>
+      <figure class="rev"><img src="img/plano-planta-baja.jpg" alt="Plano de planta baja: parqueos 7 al 10 y bauleras 7 al 9" loading="lazy"><figcaption><b>Planta baja</b>Parqueos 7 al 10 · Bauleras 7 al 9</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PLAN DE PAGOS ================= -->
+<section class="pagos" id="pagos">
+  <div class="wrap">
+    <div class="rev">
+      <div class="eyebrow">Cómo comprar</div>
+      <div class="raya"></div>
+      <h2>Tu departamento <b>en tres pasos.</b></h2>
+      <p class="lead">Plan de pagos directo con la constructora. Precios en dólares.</p>
+    </div>
+    <div class="pasos">
+      <div class="paso rev"><div class="n">1</div><h3>Reserva con $us 500</h3><p>Congelas el precio y eliges tu piso antes que nadie.</p></div>
+      <div class="paso rev"><div class="n">2</div><h3>Elige cuánto pagar a la firma</h3><p>Desde el 20%. Si pagas más a la firma, ahorras 2%, 3,5% o 6%.</p></div>
+      <div class="paso rev"><div class="n">3</div><h3>Recibe tus llaves</h3><p>Abril de 2027, con cocina Hisense instalada.</p></div>
+    </div>
+    <div class="modal-tabla rev">
+      <div><b>20%</b><span>a la firma</span><br><span class="desc">mínimo</span></div>
+      <div><b>40%</b><span>a la firma</span><br><span class="desc">−2%</span></div>
+      <div><b>60%</b><span>a la firma</span><br><span class="desc">−3,5%</span></div>
+      <div><b>100%</b><span>al contado</span><br><span class="desc">−6%</span></div>
+    </div>
+    <div class="saldo rev">
+      <div><b>Saldo contra entrega</b><p>Pagas el saldo al recibir tu departamento, en abril de 2027.</p></div>
+      <div><b>O con crédito directo hasta diciembre 2027</b><p>Pagas el saldo en cuotas con la constructora.</p></div>
+    </div>
+    <div class="cta-disp rev">
+      <p><b>Precios, disponibilidad en vivo y simulador de pago.</b> Elige tu departamento, parqueo y baulera, y calcula tu cuota en dólares y bolivianos.</p>
+      <a class="btn btn-terra" href="disponibilidad/">Ver disponibilidad</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AVANCE ================= -->
+<section id="obra">
+  <div class="wrap">
+    <div class="dos" style="align-items:end">
+      <div class="rev">
+        <div class="eyebrow">Avance de obra · Octubre 2026</div>
+        <div class="raya"></div>
+        <h2>Compra sobre <b>una obra real.</b></h2>
+        <p class="lead">Visita la obra y conoce tu próximo hogar. Mientras otros entregan en 2028, tú podrías estar viviendo o alquilando.</p>
+      </div>
+      <div class="rev"><div class="seis"><b>6</b><span>meses para la entrega<br>abril 2027</span></div></div>
+    </div>
+    <div class="obra">
+      <img class="rev" src="img/obra-1.jpg" alt="Foto actual de la obra de Torre Toscana">
+      <img class="rev" src="img/obra-2.jpg" alt="Foto actual de la obra desde otro ángulo">
+      <div class="ov rev"><video controls playsinline preload="metadata" poster="img/poster-losa-10.jpg" src="toscana/Torre_Toscana_Losa_10.mp4"></video></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BROCHURES Y VIDEOS ================= -->
+<section class="recursos" id="brochures">
+  <div class="wrap">
+    <div class="rev">
+      <div class="eyebrow">Brochures y videos</div>
+      <div class="raya"></div>
+      <h2>Llévate toda la información <b>en tu celular.</b></h2>
+      <p class="lead">Míralos aquí, descárgalos o compártelos por WhatsApp: le llega a tu contacto el PDF o el video como archivo.</p>
+    </div>
+    <div class="docs">
+      <div class="doc rev">
+        <a href="toscana/Torre_Toscana_Brochure.pdf" target="_blank" rel="noopener"><img src="img/portada-brochure.jpg" alt="Portada del Brochure Torre Toscana"></a>
+        <div><h3>Brochure Torre Toscana</h3><p>PDF · 27 páginas</p>
+          <div class="bts"><a class="p" href="toscana/Torre_Toscana_Brochure.pdf" target="_blank" rel="noopener">Ver</a><a href="toscana/Torre_Toscana_Brochure.pdf" download>Descargar</a><button class="w" data-f="b1">Compartir</button></div>
+          <div class="estado" id="e_b1"></div></div>
+      </div>
+      <div class="doc rev">
+        <a href="toscana/Torre_Toscana_Brochure_2.pdf" target="_blank" rel="noopener"><img src="img/portada-brochure-2.jpg" alt="Portada del Brochure 2 Torre Toscana"></a>
+        <div><h3>Brochure 2 · Torre Toscana</h3><p>PDF · 15 páginas · vertical</p>
+          <div class="bts"><a class="p" href="toscana/Torre_Toscana_Brochure_2.pdf" target="_blank" rel="noopener">Ver</a><a href="toscana/Torre_Toscana_Brochure_2.pdf" download>Descargar</a><button class="w" data-f="b2">Compartir</button></div>
+          <div class="estado" id="e_b2"></div></div>
+      </div>
+    </div>
+    <div class="vids">
+      <div class="vid rev">
+        <video controls playsinline preload="metadata" poster="img/poster-proyecto.jpg" src="toscana/Torre_Toscana_Video_Proyecto.mp4"></video>
+        <h3>Video del proyecto</h3><p>Recorrido del edificio · 1:10</p>
+        <div class="bts"><a class="p" href="toscana/Torre_Toscana_Video_Proyecto.mp4" download>Descargar</a><button class="w" data-f="v1">Compartir</button></div>
+        <div class="estado" id="e_v1"></div>
+      </div>
+      <div class="vid vert rev">
+        <video controls playsinline preload="metadata" poster="img/poster-losa-10.jpg" src="toscana/Torre_Toscana_Losa_10.mp4"></video>
+        <h3>Vaciado de la losa 10</h3><p>Avance de obra más reciente · vertical · 0:32</p>
+        <div class="bts"><a class="p" href="toscana/Torre_Toscana_Losa_10.mp4" download>Descargar</a><button class="w" data-f="v3">Compartir</button></div>
+        <div class="estado" id="e_v3"></div>
+      </div>
+      <div class="vid vert rev">
+        <video controls playsinline preload="metadata" poster="img/poster-avance.jpg" src="toscana/Torre_Toscana_Avance_de_Obra.mp4"></video>
+        <h3>Avance de obra · vaciado de losa</h3><p>Vertical para historias · 0:46</p>
+        <div class="bts"><a class="p" href="toscana/Torre_Toscana_Avance_de_Obra.mp4" download>Descargar</a><button class="w" data-f="v2">Compartir</button></div>
+        <div class="estado" id="e_v2"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACTO ================= -->
+<section class="contacto" id="contacto">
+  <div class="fondo" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="rev">
+      <div class="eyebrow" style="color:#c9cdbf">Quedan pocas unidades</div>
+      <div class="raya"></div>
+      <h2>Elige tu piso <b>antes que se vaya.</b></h2>
+      <p>Agenda tu visita a la obra o pide tu cotización. Te respondemos por WhatsApp.</p>
+      <p class="datos-c">Oficina: Torre Norte, piso 5, of. 5-B · Av. América entre Santa Cruz y Villarroel<br>Comercializa Barú Ventas, expertos en proyectos inmobiliarios.</p>
+    </div>
+    <div class="acciones rev">
+      <a class="btn btn-wa" href="https://wa.me/59160744425?text=Hola%2C%20quiero%20agendar%20una%20visita%20a%20Torre%20Toscana" target="_blank" rel="noopener">WhatsApp 607 44425</a>
+      <a class="btn btn-terra" href="disponibilidad/">Ver disponibilidad</a>
+      <a class="btn btn-borde" style="color:#fff;box-shadow:inset 0 0 0 1.5px #fff" href="tel:+59160744425">Llamar</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="img/logo-claro.png" alt="Torre Toscana">
+    <span>Imágenes referenciales. Precios en $us sujetos a disponibilidad y a cambio sin previo aviso.</span>
+    <span>© 2026 Torre Toscana · Cochabamba</span>
+  </div>
+</footer>
+
+<a class="flota" href="https://wa.me/59160744425?text=Hola%2C%20me%20interesa%20Torre%20Toscana" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3z"/></svg>
+</a>
+
+<script>
+(function(){
+  // Barra superior sólida al hacer scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('solid', window.scrollY > 20);
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // Menú móvil
+  const btn = document.getElementById('menuBtn'), links = document.getElementById('links');
+  btn.addEventListener('click', () => { const o = links.classList.toggle('open'); btn.setAttribute('aria-expanded', o); });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { links.classList.remove('open'); btn.setAttribute('aria-expanded', false); }));
+
+  // Aparición suave
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.rev').forEach(el => io.observe(el));
+  } else document.querySelectorAll('.rev').forEach(el => el.classList.add('in'));
+
+  // Galería ampliada
+  document.querySelectorAll('#galeria button').forEach(b => b.addEventListener('click', () => {
+    const lb = document.createElement('div'); lb.className = 'lightbox'; lb.setAttribute('role','dialog'); lb.setAttribute('aria-modal','true');
+    lb.innerHTML = '<img src="' + b.dataset.src + '" alt="' + b.querySelector('img').alt + '"><button aria-label="Cerrar">✕</button>';
+    const cerrar = () => { lb.remove(); document.removeEventListener('keydown', esc); b.focus(); };
+    const esc = e => { if (e.key === 'Escape') cerrar(); };
+    lb.addEventListener('click', e => { if (e.target === lb || e.target.tagName === 'BUTTON') cerrar(); });
+    document.addEventListener('keydown', esc); document.body.appendChild(lb); lb.querySelector('button').focus();
+  }));
+
+  // Compartir el archivo directo por WhatsApp (menú de compartir del teléfono)
+  const ITEMS = {
+    b1:{t:'Brochure Torre Toscana', f:'Torre_Toscana_Brochure.pdf', type:'application/pdf'},
+    b2:{t:'Brochure 2 · Torre Toscana', f:'Torre_Toscana_Brochure_2.pdf', type:'application/pdf'},
+    v1:{t:'Video del proyecto · Torre Toscana', f:'Torre_Toscana_Video_Proyecto.mp4', type:'video/mp4'},
+    v2:{t:'Avance de obra · Torre Toscana', f:'Torre_Toscana_Avance_de_Obra.mp4', type:'video/mp4'},
+    v3:{t:'Vaciado de la losa 10 · Torre Toscana', f:'Torre_Toscana_Losa_10.mp4', type:'video/mp4'}
+  };
+  const cache = {};
+  function preparar(k, est){
+    if (cache[k]) return cache[k];
+    const it = ITEMS[k];
+    cache[k] = (async () => {
+      const r = await fetch('toscana/' + it.f);
+      if (!r.ok) throw new Error('No se encontró el archivo');
+      const total = +r.headers.get('content-length') || 0;
+      let blob;
+      if (r.body && r.body.getReader) {
+        const rd = r.body.getReader(), partes = []; let n = 0;
+        for (;;) { const {done, value} = await rd.read(); if (done) break; partes.push(value); n += value.length;
+          est.textContent = 'Preparando… ' + (total ? Math.round(n * 100 / total) + '%' : (n / 1048576).toFixed(1) + ' MB'); }
+        blob = new Blob(partes, {type: it.type});
+      } else blob = await r.blob();
+      return new File([blob], it.f, {type: it.type});
+    })().catch(e => { delete cache[k]; throw e; });
+    return cache[k];
+  }
+  const enlaceWA = k => 'https://wa.me/?text=' + encodeURIComponent(ITEMS[k].t + ': ' + location.origin + '/toscana/' + ITEMS[k].f);
+  document.querySelectorAll('button[data-f]').forEach(b => b.addEventListener('click', async () => {
+    const k = b.dataset.f, est = document.getElementById('e_' + k);
+    if (!navigator.canShare || !navigator.share) { window.open(enlaceWA(k), '_blank'); return; }
+    let file;
+    try { file = await preparar(k, est); } catch (e) { est.textContent = e.message; return; }
+    if (!navigator.canShare({files:[file]})) { window.open(enlaceWA(k), '_blank'); return; }
+    try { await navigator.share({files:[file], title: ITEMS[k].t}); est.textContent = ''; b.classList.remove('listo'); b.textContent = 'Compartir'; }
+    catch (e) {
+      if (e.name === 'AbortError') { est.textContent = ''; return; }
+      // El archivo tardó en descargar: el teléfono pide un toque más
+      b.classList.add('listo'); b.textContent = 'Enviar por WhatsApp'; est.textContent = 'Listo. Toca «Enviar por WhatsApp».';
+    }
+  }));
+})();
+</script>
+</body>
+</html>

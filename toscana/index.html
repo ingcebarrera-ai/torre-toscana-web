@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Torre Toscana · Compartir</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
+<style>
+:root{--verde:#3e4834;--terra:#9c5234;--crema:#f6f3ee;--tinta:#282c24;--gris:#6b6b64;--linea:#e2ddd4;--wa:#1f8f4e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--crema);color:var(--tinta);font:15px/1.45 Poppins,system-ui,sans-serif}
+.wrap{max-width:520px;margin:0 auto;padding:24px 16px calc(32px + env(safe-area-inset-bottom,0px))}
+.eyebrow{font-size:11px;letter-spacing:.3em;color:var(--gris);text-transform:uppercase}
+.raya{width:42px;height:2px;background:var(--terra);margin:12px 0 14px}
+h1{font-weight:300;font-size:28px;line-height:1.1;margin:0}
+h1 b{display:block;font-weight:700;color:var(--verde)}
+p.intro{color:var(--gris);margin:12px 0 20px}
+.item{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:14px;margin-bottom:12px}
+.item.sel{border-color:var(--verde);box-shadow:0 0 0 2px rgba(62,72,52,.15)}
+.item b{display:block;font-weight:600;font-size:16px}
+.item small{color:var(--gris)}
+.btns{display:flex;gap:8px;margin-top:12px}
+button,a.btn{flex:1;border:0;border-radius:10px;padding:13px 10px;font:600 15px Poppins,system-ui,sans-serif;cursor:pointer;text-align:center;text-decoration:none}
+button.enviar{background:var(--wa);color:#fff}
+button.enviar[disabled]{background:#9db8a6;cursor:default}
+a.btn{background:transparent;border:1px solid var(--verde);color:var(--verde)}
+.estado{font-size:13px;color:var(--gris);margin-top:8px;min-height:18px}
+.pie{font-size:12px;color:var(--gris);text-align:center;margin-top:18px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="eyebrow">Torre Toscana</div>
+  <div class="raya"></div>
+  <h1>Envía el archivo <b>POR WHATSAPP.</b></h1>
+  <p class="intro">Toca <b>Enviar por WhatsApp</b> y elige el contacto: le llega el PDF o el video directo en el chat.</p>
+  <div id="lista"></div>
+  <p class="pie">Si tu teléfono no muestra WhatsApp, usa <b>Descargar</b> y adjúntalo desde WhatsApp.</p>
+</main>
+<script>
+(function(){
+  // Los 4 archivos van en la MISMA carpeta que esta página, con estos nombres exactos.
+  const ITEMS = {
+    b1: {t:'Brochure Torre Toscana', d:'PDF · 27 páginas', f:'Torre_Toscana_Brochure.pdf', type:'application/pdf'},
+    b2: {t:'Brochure 2 · Torre Toscana', d:'PDF · 15 páginas', f:'Torre_Toscana_Brochure_2.pdf', type:'application/pdf'},
+    v1: {t:'Video del proyecto', d:'Video · 1:10', f:'Torre_Toscana_Video_Proyecto.mp4', type:'video/mp4'},
+    v2: {t:'Avance de obra', d:'Video vertical · 0:46', f:'Torre_Toscana_Avance_de_Obra.mp4', type:'video/mp4'},
+    v3: {t:'Vaciado de la losa 10', d:'Video vertical · 0:32 · lo más reciente', f:'Torre_Toscana_Losa_10.mp4', type:'video/mp4'}
+  };
+  const pedido = new URLSearchParams(location.search).get('f');
+  const archivos = {};
+  const lista = document.getElementById('lista');
+  const orden = pedido && ITEMS[pedido] ? [pedido].concat(Object.keys(ITEMS).filter(k => k !== pedido)) : Object.keys(ITEMS);
+  lista.innerHTML = orden.map(k => { const it = ITEMS[k];
+    return '<div class="item' + (k === pedido ? ' sel' : '') + '" id="i_' + k + '"><b>' + it.t + '</b><small>' + it.d + '</small>' +
+      '<div class="btns"><button class="enviar" data-k="' + k + '">Enviar por WhatsApp</button><a class="btn" href="' + it.f + '" download>Descargar</a></div>' +
+      '<div class="estado" id="e_' + k + '"></div></div>'; }).join('');
+  function preparar(k){
+    if (archivos[k]) return archivos[k];
+    const it = ITEMS[k], est = document.getElementById('e_' + k);
+    archivos[k] = (async () => {
+      const r = await fetch(it.f);
+      if (!r.ok) throw new Error('No se encontró el archivo (' + r.status + ')');
+      const total = +r.headers.get('content-length') || 0;
+      let blob;
+      if (r.body && r.body.getReader) {
+        const rd = r.body.getReader(), partes = []; let n = 0;
+        for (;;) { const {done, value} = await rd.read(); if (done) break; partes.push(value); n += value.length;
+          est.textContent = 'Preparando… ' + (total ? Math.round(n * 100 / total) + '%' : (n / 1048576).toFixed(1) + ' MB'); }
+        blob = new Blob(partes, {type: it.type});
+      } else blob = await r.blob();
+      est.textContent = 'Listo para enviar';
+      return new File([blob], it.f, {type: it.type});
+    })().catch(e => { delete archivos[k]; est.textContent = e.message; throw e; });
+    return archivos[k];
+  }
+  // El archivo pedido se prepara apenas abre la página, para que el envío sea inmediato
+  if (pedido && ITEMS[pedido]) preparar(pedido).catch(() => {});
+  lista.querySelectorAll('button.enviar').forEach(b => b.addEventListener('click', async () => {
+    const k = b.dataset.k, it = ITEMS[k], est = document.getElementById('e_' + k);
+    let file;
+    try { file = await preparar(k); } catch (e) { return; }
+    if (!(navigator.canShare && navigator.canShare({files:[file]}))) {
+      est.textContent = 'Este navegador no permite enviar archivos. Usa Descargar y adjúntalo en WhatsApp.'; return;
+    }
+    try { await navigator.share({files:[file], title: it.t}); est.textContent = 'Enviado'; }
+    catch (e) {
+      if (e.name === 'AbortError') return;
+      // Si el archivo tardó en prepararse, el teléfono pide un segundo toque
+      est.textContent = 'Toca otra vez "Enviar por WhatsApp".';
+    }
+  }));
+})();
+</script>
+</body>
+</html>
