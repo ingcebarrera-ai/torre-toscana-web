@@ -244,3 +244,4 @@ footer img{height:60px;width:auto}
 .tipo .ver-precio{display:inline-block;margin-top:16px;color:var(--durazno);font-weight:600;font-size:14px;text-decoration:none;border-bottom:1px solid currentColor}
 .ico-wa{width:18px;height:18px;flex:none}
 .btn .ico-wa{margin-right:2px}
+a.bvc{color:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px}
