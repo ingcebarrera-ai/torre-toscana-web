@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,400;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/estilo.css?v=4">
+<link rel="stylesheet" href="/estilo.css?v=3">
 </head>
 <body>
 
@@ -60,7 +60,7 @@
         <div><b>20%</b><span>para entrar</span></div>
       </div>
     </div>
-    <div class="hero-img"><video id="heroVid" autoplay muted loop playsinline preload="auto" poster="img/hero-poster.jpg" aria-label="Video de la fachada de Torre Toscana"><source src="img/hero.mp4" type="video/mp4"><img src="img/fachada.jpg" alt="Fachada de Torre Toscana al atardecer"></video></div>
+    <div class="hero-img"><img src="img/fachada.jpg" alt="Fachada de Torre Toscana al atardecer" fetchpriority="high"></div>
   </div>
 </section>
 
@@ -369,10 +369,6 @@
   const nav = document.getElementById('nav');
   const onScroll = () => nav.classList.toggle('solid', window.scrollY > 20);
   onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
-
-  // Video de portada: respeta 'reducir movimiento'
-  const hv = document.getElementById('heroVid');
-  if (hv) { if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) hv.pause(); else hv.play().catch(() => {}); }
 
   // Menú móvil
   const btn = document.getElementById('menuBtn'), links = document.getElementById('links');
