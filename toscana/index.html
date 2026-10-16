@@ -40,6 +40,9 @@ s.parentNode.insertBefore(t,s)}(window, document,'script',
 fbq('init', '1004506519348487');
 fbq('track', 'PageView');
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href*="wa.me"],a[href*="api.whatsapp.com"]');if(a&&window.fbq){fbq('track','Contact');}},true);
+(function(){var K='tt_fb',W='wa.me/59160744425';try{if(/[?&](fbclid=|utm_source=(facebook|fb|instagram|ig|meta)\b)/i.test(location.search)||/(^|\.)(facebook|instagram)\.com/i.test((document.referrer.split('/')[2])||'')){localStorage.setItem(K,String(Date.now()));}}catch(e){}
+function vieneDeAnuncio(){try{var t=+localStorage.getItem(K);return !!t&&(Date.now()-t)<7*864e5;}catch(e){return false;}}
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href*="'+W+'"]');if(!a||!vieneDeAnuncio())return;try{var u=new URL(a.href);var t=u.searchParams.get('text')||'Hola, me interesa Torre Toscana';if(t.indexOf('TSC7:')!==0){a.href=u.origin+u.pathname+'?text='+encodeURIComponent('TSC7: '+t);}}catch(err){}},true);})();
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
