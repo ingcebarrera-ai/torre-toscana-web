@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,400;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/estilo.css?v=7">
+<link rel="stylesheet" href="/estilo.css?v=8">
 <!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -182,9 +182,9 @@ src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
       <h2>Cocina equipada <b>Hisense.</b></h2>
       <p class="lead">Cada departamento se entrega con encimera, campana y horno instalados. <span class="serif">Llegas y cocinas, sin gasto extra.</span></p>
       <div class="equipos">
-        <div><b>Horno empotrable</b><span>67 L · 2.200 W</span></div>
-        <div><b>Encimera a gas</b><span>4 quemadores · inox</span></div>
-        <div><b>Campana</b><span>450 m³/h · LED</span></div>
+        <button type="button" data-eq="0"><img src="img/hisense-horno.jpg" alt="" loading="lazy"><b>Horno empotrable</b><span>67 L · 2.200 W</span><i>Ver foto ›</i></button>
+        <button type="button" data-eq="2"><img src="img/hisense-encimera.jpg" alt="" loading="lazy"><b>Encimera a gas</b><span>4 quemadores · inox</span><i>Ver foto ›</i></button>
+        <button type="button" data-eq="4"><img src="img/hisense-campana.jpg" alt="" loading="lazy"><b>Campana</b><span>450 m³/h · LED</span><i>Ver foto ›</i></button>
       </div>
     </div>
   </div>
@@ -446,6 +446,44 @@ src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
       b.classList.add('listo'); b.textContent = 'Enviar por WhatsApp'; est.textContent = 'Listo. Toca «Enviar por WhatsApp».';
     }
   }));
+})();
+</script>
+
+<div class="eqm" id="eqm" role="dialog" aria-modal="true" aria-labelledby="eqmT" hidden>
+  <div class="eqm-caja">
+    <button type="button" class="eqm-x" aria-label="Cerrar">✕</button>
+    <div class="eqm-pista" id="eqmPista"></div>
+    <button type="button" class="eqm-f eqm-prev" aria-label="Anterior">‹</button>
+    <button type="button" class="eqm-f eqm-next" aria-label="Siguiente">›</button>
+    <div class="eqm-pie"><b id="eqmT"></b><div class="eqm-dots" id="eqmDots"></div></div>
+  </div>
+</div>
+<script>
+(function(){
+  const EQ = [
+    {t:'Horno empotrable Hisense', img:'img/hisense-horno.jpg', f:['Capacidad de 67 litros','Potencia de 2.200 W','Acabado negro con puerta de vidrio','Controles de perilla','Empotrado en el mueble de cocina']},
+    {t:'Encimera a gas Hisense', img:'img/hisense-encimera.jpg', f:['4 quemadores a gas','Quemador grande para olla y wok','Cubierta de acero inoxidable','Parrillas de hierro fundido','Controles frontales de perilla']},
+    {t:'Campana extractora Hisense', img:'img/hisense-campana.jpg', f:['Succión de 450 m³/h','Iluminación LED','Acero inoxidable','Diseño telescópico, se integra bajo el mueble alto']}
+  ];
+  const slides = [];
+  EQ.forEach(e => { slides.push({t:e.t, h:'<img src="' + e.img + '" alt="' + e.t + '">'}); slides.push({t:e.t, h:'<div class="eqm-spec"><span>Características</span><h3>' + e.t + '</h3><ul>' + e.f.map(x => '<li>' + x + '</li>').join('') + '</ul><p>Incluido en todos los departamentos, instalado y sin costo extra.</p></div>'}); });
+  const m = document.getElementById('eqm'), pista = document.getElementById('eqmPista'), tit = document.getElementById('eqmT'), dots = document.getElementById('eqmDots');
+  pista.innerHTML = slides.map((s, i) => '<div class="eqm-sl" data-i="' + i + '">' + s.h + '</div>').join('');
+  dots.innerHTML = slides.map((s, i) => '<button type="button" aria-label="Ir a ' + (i + 1) + '"></button>').join('');
+  let i = 0, origen = null;
+  const ir = n => { i = (n + slides.length) % slides.length; pista.style.transform = 'translateX(' + (-100 * i) + '%)'; tit.textContent = slides[i].t + (i % 2 ? ' · características' : ''); dots.querySelectorAll('button').forEach((d, k) => d.setAttribute('aria-current', String(k === i))); };
+  const abrir = (n, btn) => { origen = btn; m.hidden = false; document.body.style.overflow = 'hidden'; pista.style.transition = 'none'; ir(n); requestAnimationFrame(() => { pista.style.transition = ''; }); m.querySelector('.eqm-x').focus(); };
+  const cerrar = () => { m.hidden = true; document.body.style.overflow = ''; if (origen) origen.focus(); };
+  document.querySelectorAll('[data-eq]').forEach(b => b.addEventListener('click', () => abrir(+b.dataset.eq, b)));
+  m.querySelector('.eqm-x').addEventListener('click', cerrar);
+  m.querySelector('.eqm-prev').addEventListener('click', () => ir(i - 1));
+  m.querySelector('.eqm-next').addEventListener('click', () => ir(i + 1));
+  dots.querySelectorAll('button').forEach((d, k) => d.addEventListener('click', () => ir(k)));
+  m.addEventListener('click', e => { if (e.target === m) cerrar(); });
+  document.addEventListener('keydown', e => { if (m.hidden) return; if (e.key === 'Escape') cerrar(); if (e.key === 'ArrowRight') ir(i + 1); if (e.key === 'ArrowLeft') ir(i - 1); });
+  let x0 = null;
+  pista.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive:true});
+  pista.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) ir(i + (dx < 0 ? 1 : -1)); x0 = null; });
 })();
 </script>
 </body>
