@@ -135,7 +135,7 @@ td.zero { color: var(--muted); }
   <header>
     <div class="eyebrow">Estudio de asoleamiento · Cochabamba 17,4° S</div>
     <h1>¿Cuánto sol recibe Torre Toscana?</h1>
-    <p>Modelo 3D sobre la ubicación real, con el norte arriba. El sol sigue su trayectoria real para Cochabamba en cada fecha y hora, y las sombras de las dos torres nuevas (20 pisos al noroeste y 30 pisos al suroeste) y del edificio vecino del este (8 pisos) se calculan en vivo.</p>
+    <p>Modelo 3D sobre la ubicación real, con el norte arriba. El sol sigue su trayectoria real para Cochabamba en cada fecha y hora, y las sombras de las dos torres nuevas y del edificio vecino del este se calculan en vivo.</p>
   </header>
 
   <div class="main">
@@ -330,7 +330,7 @@ td.zero { color: var(--muted); }
     labelsEl.innerHTML = ''; labels = [];
     const add = (txt, cls, p) => { const d = document.createElement('div'); d.className = 'lbl ' + (cls || ''); d.textContent = txt; labelsEl.appendChild(d); labels.push({ d, p }); };
     add('Torre Toscana', 'mine', W(0, 0, sc.mine.h + 4));
-    sc.boxes.forEach((b) => add(b.id === 'este' ? 'Vecino este · ' + (b.h / 3) + ' pisos' : 'Torre nueva · ' + (b.h / 3) + ' pisos', '', W((b.x0 + b.x1) / 2, (b.y0 + b.y1) / 2, b.h + 4)));
+    sc.boxes.forEach((b) => add(b.id === 'este' ? 'Edificio vecino' : 'Torre nueva', '', W((b.x0 + b.x1) / 2, (b.y0 + b.y1) / 2, b.h + 4)));
     add('N', 'card', W(-50, 135, 0)); add('S', 'card', W(-50, -130, 0)); add('E', 'card', W(100, 0, 0)); add('O', 'card', W(-200, 0, 0));
   }
   function placeLabels() {
@@ -351,7 +351,7 @@ td.zero { color: var(--muted); }
       // toma de dron desde el sureste: la Monteagudo queda inclinada ~60° hacia la derecha
       const k = Math.max(1, 1.2 / camera.aspect), az = 165 * Math.PI / 180;
       tgt.copy(W(-45, -5, 25));
-      camera.position.copy(W(-45 + 265 * k * Math.sin(az), -5 + 265 * k * Math.cos(az), 25 + 193 * k)); // cámara a 36° de inclinación
+      camera.position.copy(W(-45 + 246 * k * Math.sin(az), -5 + 246 * k * Math.cos(az), 25 + 217 * k)); // cámara a ~41° de inclinación
     }
     if (v === 'vtop') camera.position.copy(W(-40, -0.5, 420));
     if (v === 'vwest') { camera.position.copy(W(-260, -5, 45)); tgt.copy(W(0, 0, 15)); }
@@ -375,7 +375,7 @@ td.zero { color: var(--muted); }
   let profiles = {};
   function rebuild(geomChanged) {
     const tallN = state.tall === 'norte';
-    sc = S.buildScene({ myFloors: state.myFloors, eastFloors: state.eastFloors, gap: state.gap, northFloors: tallN ? 30 : 20, southFloors: tallN ? 20 : 30 });
+    sc = S.buildScene({ myFloors: state.myFloors, eastFloors: state.eastFloors, gap: state.gap, northFloors: 18, southFloors: 22 });
     if (geomChanged || !grp.children.length) {
       grp.clear();
       boxMesh(sc.mine, mats.mine).forEach((o) => grp.add(o));
@@ -483,7 +483,7 @@ td.zero { color: var(--muted); }
       `<strong>Por la mañana el vecino del este sí tapa, pero menos de lo que parece.</strong> En invierno el sol entra por el este desde las ${first(eJ)} en el ${levelText()}. Los pisos altos lo reciben desde temprano porque el sol no sale de frente sino desde el noreste, y pasa en diagonal por encima del vecino.`,
       `<strong>El norte es la fachada fuerte en invierno.</strong> En Cochabamba el sol de mayo a agosto viaja por el norte: ${nJ.hours.toFixed(1).replace('.', ',')} horas de sol directo el 21 de junio (${first(nJ)} a ${last(nJ)}), justo en los meses fríos.`,
       `<strong>Por el oeste entra el sol desde el mediodía.</strong> Hoy (${todayTxt}) de ${first(wD)} a ${last(wD)}, en invierno de ${first(wJ)} a ${last(wJ)} y en primavera de ${first(wS)} a ${last(wS)}. El sol pasa por el espacio de ${state.gap} m que queda entre las dos torres nuevas.`,
-      `<strong>Al final de la tarde.</strong> ${endsAtSet(wS, 265) ? 'En primavera el sol se pone justo por el medio de las torres y entra hasta que oscurece (' + sunset(265) + ').' : ''} En invierno el sol se pone hacia el noroeste y la torre de ${tN} pisos cubre el último tramo, desde las ${last(wJ)} (puesta a las ${sunset(172)}). ${endsAtSet(wD, doyToday) ? 'Hoy el sol entra hasta la puesta (' + sunset(doyToday) + ').' : 'Hoy la torre de ' + tS + ' pisos lo cubre desde las ' + last(wD) + ' (puesta a las ' + sunset(doyToday) + ').'}`,
+      `<strong>Al final de la tarde.</strong> ${endsAtSet(wS, 265) ? 'En primavera el sol se pone justo por el medio de las torres y entra hasta que oscurece (' + sunset(265) + ').' : ''} En invierno el sol se pone hacia el noroeste y la torre del noroeste cubre el último tramo, desde las ${last(wJ)} (puesta a las ${sunset(172)}). ${endsAtSet(wD, doyToday) ? 'Hoy el sol entra hasta la puesta (' + sunset(doyToday) + ').' : 'Hoy la torre del suroeste lo cubre desde las ' + last(wD) + ' (puesta a las ' + sunset(doyToday) + ').'}`,
     ];
     $('find').innerHTML = items.map((t, i) => `<div><span class="n">${i + 1}</span><p>${t}</p></div>`).join('');
   }
