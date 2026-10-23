@@ -351,7 +351,7 @@ td.zero { color: var(--muted); }
       // toma de dron desde el sureste: la Monteagudo queda inclinada ~60° hacia la derecha
       const k = Math.max(1, 1.2 / camera.aspect), az = 165 * Math.PI / 180;
       tgt.copy(W(-45, -5, 25));
-      camera.position.copy(W(-45 + 280 * k * Math.sin(az), -5 + 280 * k * Math.cos(az), 25 + 170 * k));
+      camera.position.copy(W(-45 + 265 * k * Math.sin(az), -5 + 265 * k * Math.cos(az), 25 + 193 * k)); // cámara a 36° de inclinación
     }
     if (v === 'vtop') camera.position.copy(W(-40, -0.5, 420));
     if (v === 'vwest') { camera.position.copy(W(-260, -5, 45)); tgt.copy(W(0, 0, 15)); }
