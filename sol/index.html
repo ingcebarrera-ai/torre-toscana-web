@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Asoleamiento Torre Toscana</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: visor 3D grande arriba, controles y lectura de horas al lado (escritorio) o debajo (celular) */
+:root {
+  --bg: #f3f1ec;
+  --panel: #ffffff;
+  --fg: #22252b;
+  --muted: #6a6e76;
+  --line: #dcd8cf;
+  --sun: #e8a21a;
+  --sun-soft: #fbe7b8;
+  --shade: #4b5a86;
+  --shade-soft: #dfe3ef;
+  --mine: #c2412d;
+  --ok: #2e8a57;
+  --display: "Archivo Narrow", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --body: "Public Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #16181c; --panel: #1f2228; --fg: #eceae5; --muted: #a2a5ad; --line: #33363e;
+  --sun: #f2b33a; --sun-soft: #4a3a17; --shade: #8d9bd0; --shade-soft: #2a3046; --mine: #ef6a52; --ok: #5bc48a;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #16181c; --panel: #1f2228; --fg: #eceae5; --muted: #a2a5ad; --line: #33363e;
+  --sun: #f2b33a; --sun-soft: #4a3a17; --shade: #8d9bd0; --shade-soft: #2a3046; --mine: #ef6a52; --ok: #5bc48a;
+  color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-block: 20px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 20px; }
+header h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 4vw, 42px); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+header p { margin: 6px 0 0; color: var(--muted); max-width: 70ch; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sun); margin-bottom: 6px; }
+
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; align-items: start; }
+@media (max-width: 960px) { .main { grid-template-columns: minmax(0, 1fr); } }
+
+.viewer { position: relative; border-radius: 10px; overflow: hidden; background: #a9c3d8; height: min(72vh, 680px); min-height: 380px; border: 1px solid var(--line); }
+@media (max-width: 600px) { .viewer { height: 62vh; min-height: 340px; } }
+#gl { width: 100%; height: 100%; display: block; touch-action: none; }
+.lbl { position: absolute; transform: translate(-50%, -100%); pointer-events: none; white-space: nowrap;
+  font-family: var(--display); font-weight: 600; font-size: 13px; padding: 2px 7px; border-radius: 4px;
+  background: rgba(20, 22, 26, 0.78); color: #fff; }
+.lbl.mine { background: #c2412d; }
+.lbl.card { background: transparent; color: #fff; font-size: 22px; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,.7); transform: translate(-50%, -50%); }
+.hud { position: absolute; left: 12px; top: 12px; display: grid; gap: 2px; padding: 10px 12px; border-radius: 8px;
+  background: rgba(20, 22, 26, 0.8); color: #fff; font-family: var(--mono); font-size: 12px; font-variant-numeric: tabular-nums; }
+.hud b { font-family: var(--display); font-size: 26px; font-weight: 700; line-height: 1; }
+.views { position: absolute; right: 10px; top: 10px; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.views button { font: 600 12px var(--body); border: 0; border-radius: 6px; padding: 7px 10px; cursor: pointer; background: rgba(20,22,26,.78); color: #fff; }
+.views button[aria-pressed="true"] { background: var(--sun); color: #1b1b1b; }
+.legend { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; color: #fff;
+  background: rgba(20,22,26,.72); border-radius: 8px; padding: 6px 10px; max-width: calc(100% - 24px); }
+.legend i { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 5px; border-radius: 2px; }
+
+.stage { display: grid; gap: 0; min-width: 0; }
+.stage .viewer { border-radius: 10px 10px 0 0; border-bottom: 0; }
+.timebar { background: var(--panel); border: 1px solid var(--line); border-radius: 0 0 10px 10px; padding: 14px 16px 16px; display: grid; gap: 14px; }
+.tb-top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: start; }
+.tb-range { min-width: 0; }
+.tb-range input { width: 100%; height: 28px; margin: 0; cursor: pointer; }
+.ticks { display: flex; justify-content: space-between; padding: 0 6px; font-family: var(--mono); font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ticks span { width: 0; display: flex; justify-content: center; }
+@media (max-width: 600px) { .ticks span:nth-child(even) { visibility: hidden; } }
+.tb-time { font-family: var(--display); font-weight: 700; font-size: 28px; line-height: 1; min-width: 3.2ch; text-align: right; font-variant-numeric: tabular-nums; padding-top: 2px; }
+.seasons { display: flex; flex-wrap: wrap; gap: 8px; }
+.seasons button { font: 500 13px var(--body); border: 1px solid var(--line); background: var(--bg); color: var(--fg); border-radius: 8px; padding: 8px 12px; cursor: pointer; display: grid; text-align: left; line-height: 1.2; }
+.seasons button b { font-family: var(--display); font-weight: 700; font-size: 15px; }
+.seasons button small { font-size: 11px; color: var(--muted); }
+.seasons button.big { padding: 10px 18px; min-width: 150px; }
+.seasons button.big b { font-size: 20px; }
+.seasons button[aria-pressed="true"] { background: var(--sun); border-color: var(--sun); color: #1b1b1b; }
+.seasons button[aria-pressed="true"] small { color: #3a2f12; }
+@media (max-width: 600px) { .seasons button.big { flex: 1 1 40%; min-width: 0; } }
+.side { display: grid; gap: 16px; min-width: 0; }
+.box { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; min-width: 0; }
+.box h2 { font-family: var(--display); font-size: 19px; font-weight: 700; margin: 0 0 10px; }
+.label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; display: block; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { font: 500 13px var(--body); border: 1px solid var(--line); background: var(--bg); color: var(--fg); border-radius: 999px; padding: 6px 11px; cursor: pointer; }
+.chips button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
+.timerow { display: flex; align-items: center; gap: 10px; }
+#play { flex: none; width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--sun); color: #1b1b1b; font-size: 15px; cursor: pointer; }
+input[type=range] { width: 100%; accent-color: var(--sun); }
+.ctrl { display: grid; gap: 14px; }
+.row2 { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; font-size: 14px; }
+.row2 output { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.status { display: grid; gap: 6px; }
+.st { display: grid; grid-template-columns: 112px 1fr; gap: 8px; align-items: center; font-size: 14px; }
+.pill { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; justify-self: start; }
+.pill.sun { background: var(--sun-soft); color: var(--fg); }
+.pill.sun::before { content: "☀ "; color: var(--sun); }
+.pill.shade { background: var(--shade-soft); color: var(--fg); }
+
+.lower { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 960px) { .lower { grid-template-columns: minmax(0, 1fr); } }
+.tl { width: 100%; display: block; }
+.tl text { fill: var(--muted); font-family: var(--mono); font-size: 11px; }
+.tl .fl { fill: var(--fg); font-family: var(--body); font-size: 13px; font-weight: 600; }
+.tl .hrs { fill: var(--fg); font-family: var(--mono); font-size: 13px; font-weight: 500; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 500; }
+td.h { font-family: var(--mono); }
+td.zero { color: var(--muted); }
+.find { display: grid; gap: 12px; }
+.find div { display: grid; grid-template-columns: 26px 1fr; gap: 10px; }
+.find .n { font-family: var(--display); font-weight: 700; font-size: 22px; color: var(--sun); line-height: 1.1; }
+.find p { margin: 0; }
+.find strong { font-weight: 600; }
+.note { font-size: 13px; color: var(--muted); margin: 10px 0 0; max-width: 75ch; }
+.sub { font-size: 13px; color: var(--muted); margin: -4px 0 10px; }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Estudio de asoleamiento · Cochabamba 17,4° S</div>
+    <h1>¿Cuánto sol recibe Torre Toscana?</h1>
+    <p>Modelo 3D sobre la ubicación real, con el norte arriba. El sol sigue su trayectoria real para Cochabamba en cada fecha y hora, y las sombras de las dos torres nuevas (20 pisos al noroeste y 30 pisos al suroeste) y del edificio vecino del este (8 pisos) se calculan en vivo.</p>
+  </header>
+
+  <div class="main">
+    <div class="stage">
+    <div class="viewer" id="viewer">
+      <canvas id="gl" aria-label="Modelo 3D del asoleamiento"></canvas>
+      <div id="labels"></div>
+      <div class="hud" aria-live="polite">
+        <b id="hudTime">14:00</b>
+        <span id="hudDate">21 de junio</span>
+        <span id="hudSun">Sol: 45° de altura, noroeste</span>
+      </div>
+      <div class="views" role="group" aria-label="Vista">
+        <button id="v3d" aria-pressed="true">3D</button>
+        <button id="vtop" aria-pressed="false">Planta</button>
+        <button id="vwest" aria-pressed="false">Desde el oeste</button>
+      </div>
+      <div class="legend">
+        <span><i style="background:#ffd34d"></i>Rayo de sol que llega</span>
+        <span><i style="background:#7b8bc4"></i>Rayo tapado</span>
+        <span><i style="background:#ffb000;height:2px"></i>Recorrido del sol en el día</span>
+      </div>
+    </div>
+    <div class="timebar">
+      <div class="tb-top">
+        <button id="play" aria-label="Reproducir el día">▶</button>
+        <div class="tb-range">
+          <input type="range" id="time" min="360" max="1140" step="5" value="840" aria-label="Hora del día">
+          <div class="ticks" aria-hidden="true"><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span></div>
+        </div>
+        <output id="tbTime" class="tb-time">14:00</output>
+      </div>
+      <div class="seasons" id="dates" role="group" aria-label="Época del año"></div>
+    </div>
+    </div>
+
+    <div class="side">
+      <div class="box ctrl">
+        <div>
+          <span class="label">Altura de departamento a revisar</span>
+          <div class="chips" id="levels"></div>
+        </div>
+      </div>
+
+      <div class="box">
+        <h2>Ahora mismo</h2>
+        <div class="status" id="status"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="lower">
+    <div class="box">
+      <h2>Horas de sol directo en el día elegido</h2>
+      <p class="sub" id="tlSub"></p>
+      <div class="scroll"><svg class="tl" id="tl" viewBox="0 0 640 210" role="img" aria-label="Línea de tiempo de sol por fachada"></svg></div>
+      <h2 style="margin-top:18px">Resumen del año</h2>
+      <p class="sub" id="tblSub"></p>
+      <div class="scroll"><table id="tbl"></table></div>
+    </div>
+    <div class="box">
+      <h2>Lo que muestra el cálculo</h2>
+      <div class="find" id="find"></div>
+      <p class="note">Sol directo calculado cada 2 minutos con la posición astronómica del sol (algoritmo NOAA) para Cochabamba, hora de Bolivia. Medidas tomadas de la captura de Google Maps (≈0,5 m por píxel), pisos de 3 m. Torres nuevas modeladas como bloques de 40 × 40 m, separadas 60 m entre sí. No se incluyen las casas bajas de 1 a 3 pisos ni los árboles, que no alcanzan la altura de los departamentos.</p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="core.js"></script>
+<script>
+(function () {
+  const S = window.SolarCore;
+  const now = new Date();
+  const doyToday = Math.floor((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(now.getFullYear(), 0, 0)) / 864e5);
+  const todayTxt = now.toLocaleDateString('es-BO', { day: 'numeric', month: 'long' });
+  const DATES = [
+    { id: 'ver', name: 'Verano', small: 'hoy, ' + todayTxt, big: true, long: 'hoy, ' + todayTxt, doy: doyToday },
+    { id: 'inv', name: 'Invierno', small: '21 de junio', big: true, long: '21 de junio (invierno)', doy: 172 },
+    { id: 'pri', name: 'Primavera', small: '22 de septiembre', long: '22 de septiembre (primavera)', doy: 265 },
+  ];
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const startT = nowMin >= 420 && nowMin <= 1080 ? Math.round(nowMin / 5) * 5 : 840;
+
+  const LEVELS = [{ id: 'bajo', name: 'Piso 1' }, { id: 'medio', name: 'Piso medio' }, { id: 'alto', name: 'Último piso' }];
+  const state = { date: 'ver', level: 'medio', myFloors: 11, eastFloors: 8, gap: 60, tall: 'sur', t: startT, playing: false };
+
+  const $ = (id) => document.getElementById(id);
+  const fmtT = (m) => S.fmt(m);
+  const card = (az) => ['norte', 'noreste', 'este', 'sureste', 'sur', 'suroeste', 'oeste', 'noroeste'][Math.round(az / 45) % 8];
+  const curDate = () => DATES.find((d) => d.id === state.date);
+  let sc = null;
+  function levelZ() {
+    const H = sc.mine.h;
+    return state.level === 'bajo' ? 3 : state.level === 'alto' ? H - 1.5 : H / 2;
+  }
+  function levelText() {
+    const f = state.myFloors;
+    return state.level === 'bajo' ? 'piso 1' : state.level === 'alto' ? 'piso ' + f + ' (último)' : 'piso ' + Math.ceil(f / 2) + ' (medio)';
+  }
+
+  // ---------- chips ----------
+  function chips(el, items, key) {
+    el.innerHTML = '';
+    items.forEach((it) => {
+      const b = document.createElement('button');
+      if (it.small !== undefined) { b.innerHTML = '<b>' + it.name + '</b>' + (it.small ? '<small>' + it.small + '</small>' : ''); if (it.big) b.className = 'big'; } else b.textContent = it.name;
+      b.dataset.v = it.id;
+      b.setAttribute('aria-pressed', String(state[key] === it.id));
+      b.onclick = () => { state[key] = it.id; [...el.children].forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.v === it.id))); rebuild(); };
+      el.appendChild(b);
+    });
+  }
+  chips($('dates'), DATES, 'date');
+  chips($('levels'), LEVELS, 'level');
+  $('time').oninput = (e) => { state.t = +e.target.value; update(); };
+  $('play').onclick = () => { state.playing = !state.playing; $('play').textContent = state.playing ? '❚❚' : '▶'; $('play').setAttribute('aria-label', state.playing ? 'Pausar' : 'Reproducir el día'); };
+
+  // ---------- three.js ----------
+  const canvas = $('gl'), viewer = $('viewer');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(40, 1, 1, 4000);
+  const controls = new THREE.OrbitControls(camera, canvas);
+  controls.enableDamping = true; controls.maxPolarAngle = Math.PI * 0.495; controls.minDistance = 40; controls.maxDistance = 900;
+  const W = (x, y, z) => new THREE.Vector3(x, z || 0, -y); // este, norte, arriba -> three
+
+  const hemi = new THREE.HemisphereLight(0xdfeeff, 0x8a7f6a, 0.55); scene.add(hemi);
+  const sun = new THREE.DirectionalLight(0xfff1d6, 1.6);
+  sun.castShadow = true; sun.shadow.mapSize.set(4096, 4096);
+  Object.assign(sun.shadow.camera, { left: -230, right: 230, top: 230, bottom: -230, near: 1, far: 1200 });
+  sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.6;
+  sun.target.position.copy(W(-40, 0, 0)); scene.add(sun); scene.add(sun.target);
+
+  // suelo: captura de Google Maps a escala (0,5 m/px), norte arriba
+  const far = new THREE.Mesh(new THREE.PlaneGeometry(2400, 2400), new THREE.MeshLambertMaterial({ color: 0xb9b2a3 }));
+  far.rotation.x = -Math.PI / 2; far.position.y = -0.2; far.receiveShadow = true; scene.add(far);
+  const tex = new THREE.TextureLoader().load('mapa.png', () => render());
+  tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 8;
+  const map = new THREE.Mesh(new THREE.PlaneGeometry(281.5, 240), new THREE.MeshLambertMaterial({ map: tex }));
+  map.rotation.x = -Math.PI / 2; map.position.copy(W(-50.75, 1.5, 0)); map.receiveShadow = true; scene.add(map);
+
+  const grp = new THREE.Group(); scene.add(grp);
+  const mats = {
+    mine: new THREE.MeshStandardMaterial({ color: 0xd8573f, roughness: 0.8 }),
+    este: new THREE.MeshStandardMaterial({ color: 0xd9d4ca, roughness: 0.9 }),
+    norte: new THREE.MeshStandardMaterial({ color: 0xc66bc6, roughness: 0.85, transparent: true, opacity: 0.93 }),
+    sur: new THREE.MeshStandardMaterial({ color: 0xc66bc6, roughness: 0.85, transparent: true, opacity: 0.93 }),
+  };
+  const edgeMat = new THREE.LineBasicMaterial({ color: 0x2a2a2a, transparent: true, opacity: 0.35 });
+  function boxMesh(b, mat) {
+    const g = new THREE.BoxGeometry(b.x1 - b.x0, b.h, b.y1 - b.y0);
+    const m = new THREE.Mesh(g, mat); m.castShadow = true; m.receiveShadow = true;
+    m.position.copy(W((b.x0 + b.x1) / 2, (b.y0 + b.y1) / 2, b.h / 2));
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(g), edgeMat); e.position.copy(m.position);
+    // líneas de piso
+    const fl = new THREE.Group();
+    for (let z = 3; z < b.h - 0.5; z += 3) {
+      const r = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.PlaneGeometry(b.x1 - b.x0 + 0.05, b.y1 - b.y0 + 0.05)), edgeMat);
+      r.rotation.x = -Math.PI / 2; r.position.copy(W((b.x0 + b.x1) / 2, (b.y0 + b.y1) / 2, z)); fl.add(r);
+    }
+    return [m, e, fl];
+  }
+
+  // sol + trayectoria + rayos
+  const sunBall = new THREE.Mesh(new THREE.SphereGeometry(7, 24, 16), new THREE.MeshBasicMaterial({ color: 0xffc83a }));
+  scene.add(sunBall);
+  let pathLine = null;
+  const R = 300;
+  const rayGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+  const rayMat = new THREE.LineBasicMaterial({ color: 0xffd34d, linewidth: 2 });
+  const ray = new THREE.Line(rayGeo, rayMat); scene.add(ray);
+  const marker = new THREE.Mesh(new THREE.SphereGeometry(1.3, 16, 12), new THREE.MeshBasicMaterial({ color: 0xffd34d }));
+  scene.add(marker);
+
+  // etiquetas HTML proyectadas
+  const labelsEl = $('labels');
+  let labels = [];
+  function setLabels() {
+    labelsEl.innerHTML = ''; labels = [];
+    const add = (txt, cls, p) => { const d = document.createElement('div'); d.className = 'lbl ' + (cls || ''); d.textContent = txt; labelsEl.appendChild(d); labels.push({ d, p }); };
+    add('Torre Toscana', 'mine', W(0, 0, sc.mine.h + 4));
+    sc.boxes.forEach((b) => add(b.id === 'este' ? 'Vecino este · ' + (b.h / 3) + ' pisos' : 'Torre nueva · ' + (b.h / 3) + ' pisos', '', W((b.x0 + b.x1) / 2, (b.y0 + b.y1) / 2, b.h + 4)));
+    add('N', 'card', W(-50, 135, 0)); add('S', 'card', W(-50, -130, 0)); add('E', 'card', W(100, 0, 0)); add('O', 'card', W(-200, 0, 0));
+  }
+  function placeLabels() {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    labels.forEach(({ d, p }) => {
+      const v = p.clone().project(camera);
+      const vis = v.z < 1 && v.x > -1.1 && v.x < 1.1 && v.y > -1.1 && v.y < 1.1;
+      d.hidden = !vis;
+      if (vis) { d.style.left = ((v.x + 1) / 2 * w) + 'px'; d.style.top = ((1 - v.y) / 2 * h) + 'px'; }
+    });
+  }
+
+  // vistas
+  function setView(v) {
+    ['v3d', 'vtop', 'vwest'].forEach((id) => $(id).setAttribute('aria-pressed', String(id === v)));
+    const tgt = W(-35, -5, 10);
+    if (v === 'v3d') camera.position.copy(W(120, -230, 170));
+    if (v === 'vtop') camera.position.copy(W(-40, -0.5, 420));
+    if (v === 'vwest') { camera.position.copy(W(-260, -5, 45)); tgt.copy(W(0, 0, 15)); }
+    controls.target.copy(tgt); controls.update(); render();
+  }
+  $('v3d').onclick = () => setView('v3d'); $('vtop').onclick = () => setView('vtop'); $('vwest').onclick = () => setView('vwest');
+
+  function resize() {
+    const w = viewer.clientWidth, h = viewer.clientHeight;
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); render();
+  }
+  window.addEventListener('resize', resize);
+
+  // ---------- reconstrucción ----------
+  const FACE_ORDER = ['O', 'N', 'E', 'S'];
+  const BY_NAME = { este: 'el vecino del este', norte: 'la torre noroeste', sur: 'la torre suroeste', orientacion: 'el sol está del otro lado', noche: 'de noche' };
+  let profiles = {};
+  function rebuild(geomChanged) {
+    const tallN = state.tall === 'norte';
+    sc = S.buildScene({ myFloors: state.myFloors, eastFloors: state.eastFloors, gap: state.gap, northFloors: tallN ? 30 : 20, southFloors: tallN ? 20 : 30 });
+    if (geomChanged || !grp.children.length) {
+      grp.clear();
+      boxMesh(sc.mine, mats.mine).forEach((o) => grp.add(o));
+      sc.boxes.forEach((b) => boxMesh(b, mats[b.id]).forEach((o) => grp.add(o)));
+      setLabels();
+    }
+    const d = curDate();
+    // trayectoria del sol
+    if (pathLine) { scene.remove(pathLine); pathLine.geometry.dispose(); }
+    const pts = [];
+    for (let m = 300; m <= 1260; m += 5) { const p = S.sunPos(d.doy, m / 60); if (p.alt > 0) { const v = S.sunVec(p); pts.push(W(v[0] * R - 40, v[1] * R, v[2] * R)); } }
+    pathLine = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color: 0xffb000, dashSize: 6, gapSize: 4 }));
+    pathLine.computeLineDistances(); scene.add(pathLine);
+    // perfiles del día
+    const z = levelZ();
+    profiles = {}; FACE_ORDER.forEach((f) => profiles[f] = S.dayProfile(sc, f, z, d.doy, 2));
+    drawTimeline(); drawTable(); drawFindings(); update();
+  }
+
+  // ---------- actualización por hora ----------
+  function update() {
+    const d = curDate(), sp = S.sunPos(d.doy, state.t / 60), v = S.sunVec(sp);
+    $('time').value = state.t;
+    $('hudTime').textContent = fmtT(state.t); $('tbTime').textContent = fmtT(state.t);
+    $('hudDate').textContent = d.long.charAt(0).toUpperCase() + d.long.slice(1);
+    $('hudSun').textContent = sp.alt > 0 ? 'Sol a ' + Math.round(sp.alt) + '° de altura, hacia el ' + card(sp.az) : 'El sol está bajo el horizonte';
+    const up = Math.max(sp.alt, -2) > 0;
+    sun.position.copy(W(v[0] * 400 - 40, v[1] * 400, Math.max(v[2], 0.01) * 400));
+    sun.intensity = up ? 0.5 + 1.3 * Math.min(1, sp.alt / 25) : 0;
+    hemi.intensity = up ? 0.55 : 0.25;
+    sunBall.visible = up; sunBall.position.copy(W(v[0] * R - 40, v[1] * R, v[2] * R));
+    // rayo desde la fachada que mira al sol (o la oeste por defecto)
+    const z = levelZ();
+    let best = 'O', bestDot = -9;
+    FACE_ORDER.forEach((f) => { const n = S.FACES[f].n; const dt = n[0] * v[0] + n[1] * v[1]; if (dt > bestDot) { bestDot = dt; best = f; } });
+    const m = sc.mine, fp = { O: [m.x0, 0], E: [m.x1, 0], N: [0, m.y1], S: [0, m.y0] }[best];
+    const lit = S.litAt(sc, best, z, sp);
+    ray.visible = marker.visible = up;
+    const a = W(fp[0], fp[1], z);
+    let len = 260;
+    if (!lit.lit && lit.by !== 'orientacion') {
+      const p = [fp[0] + S.FACES[best].n[0] * 0.05, fp[1] + S.FACES[best].n[1] * 0.05, z];
+      sc.boxes.forEach((b) => { const t = S.hitBox(p, v, b); if (t !== null) len = Math.min(len, t); });
+    }
+    const bpt = W(fp[0] + v[0] * len, fp[1] + v[1] * len, z + v[2] * len);
+    ray.geometry.setFromPoints([a, bpt]); marker.position.copy(a);
+    const c = lit.lit ? 0xffd34d : 0x7b8bc4; rayMat.color.setHex(c); marker.material.color.setHex(c);
+    // estado por fachada
+    $('status').innerHTML = FACE_ORDER.map((f) => {
+      const r = S.litAt(sc, f, z, sp);
+      const txt = r.lit ? 'Sol directo' : (r.by === 'orientacion' ? 'Sin sol (el sol está del otro lado)' : r.by === 'noche' ? 'De noche' : 'Sombra de ' + BY_NAME[r.by]);
+      return `<div class="st"><span>${S.FACES[f].label}</span><span class="pill ${r.lit ? 'sun' : 'shade'}">${txt}</span></div>`;
+    }).join('') + `<p class="sub" style="margin:6px 0 0">Para un departamento en el ${levelText()}.</p>`;
+    // cursor de la línea de tiempo
+    const cur = $('tlCursor'); if (cur) { const x = tx(state.t); cur.setAttribute('x1', x); cur.setAttribute('x2', x); }
+    render();
+  }
+
+  // ---------- línea de tiempo ----------
+  const T0 = 360, T1 = 1140, X0 = 118, X1 = 570;
+  const tx = (t) => X0 + (t - T0) / (T1 - T0) * (X1 - X0);
+  function drawTimeline() {
+    const svg = $('tl'); let s = '';
+    for (let h = 6; h <= 19; h++) { const x = tx(h * 60); s += `<line x1="${x}" x2="${x}" y1="18" y2="182" stroke="var(--line)" stroke-width="1"/>`; if (h % 2 === 0) s += `<text x="${x}" y="200" text-anchor="middle">${h}:00</text>`; }
+    // horas del sol sobre el horizonte
+    const d = curDate(); let rise = null, set = null;
+    for (let m = 300; m <= 1260; m += 1) { const up = S.sunPos(d.doy, m / 60).alt > 0; if (up && rise === null) rise = m; if (up) set = m; }
+    s += `<rect x="${tx(Math.max(T0, rise))}" y="8" width="${tx(Math.min(T1, set)) - tx(Math.max(T0, rise))}" height="6" rx="3" fill="var(--sun)" opacity=".35"/>`;
+    s += `<text x="${X0 - 8}" y="14" text-anchor="end">sol en el cielo</text>`;
+    FACE_ORDER.forEach((f, i) => {
+      const y = 26 + i * 40, p = profiles[f];
+      s += `<text class="fl" x="0" y="${y + 18}">${S.FACES[f].label.replace('Fachada ', '').replace(/^./, (c) => c.toUpperCase())}</text>`;
+      s += `<rect x="${X0}" y="${y}" width="${X1 - X0}" height="26" rx="4" fill="var(--shade-soft)"/>`;
+      p.spans.forEach((sp) => { const a = Math.max(T0, sp[0]), b = Math.min(T1, sp[1]); if (b > a) s += `<rect x="${tx(a)}" y="${y}" width="${tx(b) - tx(a)}" height="26" rx="4" fill="var(--sun)"/>`; });
+      s += `<text class="hrs" x="${X1 + 10}" y="${y + 18}">${p.hours.toFixed(1).replace('.', ',')} h</text>`;
+    });
+    s += `<line id="tlCursor" x1="0" x2="0" y1="18" y2="186" stroke="var(--fg)" stroke-width="2"/>`;
+    svg.innerHTML = s;
+    $('tlSub').textContent = curDate().long.charAt(0).toUpperCase() + curDate().long.slice(1) + ', departamento en el ' + levelText() + '. Barra amarilla = sol directo en la ventana.';
+  }
+
+  function drawTable() {
+    const z = levelZ();
+    const rows = DATES;
+    let h = '<thead><tr><th>Fecha</th>' + FACE_ORDER.map((f) => `<th>${S.FACES[f].label.replace('Fachada ', '')}</th>`).join('') + '</tr></thead><tbody>';
+    rows.forEach((d) => {
+      h += `<tr><td>${d.name} <small style="color:var(--muted)">${d.small}</small></td>` + FACE_ORDER.map((f) => { const v = S.dayProfile(sc, f, z, d.doy, 2).hours; return `<td class="h ${v < 0.05 ? 'zero' : ''}">${v.toFixed(1).replace('.', ',')} h</td>`; }).join('') + '</tr>';
+    });
+    $('tbl').innerHTML = h + '</tbody>';
+    $('tblSub').textContent = 'Horas de sol directo por fachada, departamento en el ' + levelText() + '.';
+  }
+
+  function drawFindings() {
+    const z = levelZ(), tallN = state.tall === 'norte';
+    const pj = (f, doy) => S.dayProfile(sc, f, z, doy, 2);
+    const wJ = pj('O', 172), wD = pj('O', doyToday), wS = pj('O', 265), eJ = pj('E', 172), nJ = pj('N', 172);
+    const first = (p) => p.spans.length ? fmtT(p.spans[0][0]) : '—';
+    const last = (p) => p.spans.length ? fmtT(p.spans[p.spans.length - 1][1]) : '—';
+    const midEnd = (p) => p.spans.length ? fmtT(p.spans[0][1]) : '—';
+    const tN = sc.boxes.find((b) => b.id === 'norte').h / 3, tS = sc.boxes.find((b) => b.id === 'sur').h / 3;
+    const setMin = (doy) => { let s = 0; for (let m = 900; m <= 1260; m++) if (S.sunPos(doy, m / 60).alt > 0) s = m; return s; };
+    const sunset = (doy) => fmtT(setMin(doy));
+    const endsAtSet = (p, doy) => p.spans.length && p.spans[p.spans.length - 1][1] >= setMin(doy) - 6;
+    const items = [
+      `<strong>Por la mañana el vecino del este sí tapa, pero menos de lo que parece.</strong> En invierno el sol entra por el este desde las ${first(eJ)} en el ${levelText()}. Los pisos altos lo reciben desde temprano porque el sol no sale de frente sino desde el noreste, y pasa en diagonal por encima del vecino.`,
+      `<strong>El norte es la fachada fuerte en invierno.</strong> En Cochabamba el sol de mayo a agosto viaja por el norte: ${nJ.hours.toFixed(1).replace('.', ',')} horas de sol directo el 21 de junio (${first(nJ)} a ${last(nJ)}), justo en los meses fríos.`,
+      `<strong>Por el oeste entra el sol desde el mediodía.</strong> Hoy (${todayTxt}) de ${first(wD)} a ${last(wD)}, en invierno de ${first(wJ)} a ${last(wJ)} y en primavera de ${first(wS)} a ${last(wS)}. El sol pasa por el espacio de ${state.gap} m que queda entre las dos torres nuevas.`,
+      `<strong>Al final de la tarde.</strong> ${endsAtSet(wS, 265) ? 'En primavera el sol se pone justo por el medio de las torres y entra hasta que oscurece (' + sunset(265) + ').' : ''} En invierno el sol se pone hacia el noroeste y la torre de ${tN} pisos cubre el último tramo, desde las ${last(wJ)} (puesta a las ${sunset(172)}). ${endsAtSet(wD, doyToday) ? 'Hoy el sol entra hasta la puesta (' + sunset(doyToday) + ').' : 'Hoy la torre de ' + tS + ' pisos lo cubre desde las ' + last(wD) + ' (puesta a las ' + sunset(doyToday) + ').'}`,
+    ];
+    $('find').innerHTML = items.map((t, i) => `<div><span class="n">${i + 1}</span><p>${t}</p></div>`).join('');
+  }
+
+  // ---------- render ----------
+  let dirty = true;
+  function render() { dirty = true; }
+  controls.addEventListener('change', render);
+  let last = performance.now();
+  function loop(ts) {
+    const dt = Math.min(0.1, (ts - last) / 1000); last = ts;
+    if (state.playing) { state.t += dt * 60; if (state.t > T1) state.t = T0; update(); }
+    controls.update();
+    if (dirty) { renderer.render(scene, camera); placeLabels(); dirty = false; }
+    requestAnimationFrame(loop);
+  }
+
+  rebuild(true); resize(); setView('v3d'); requestAnimationFrame(loop);
+})();
+</script>
+
+</body>
+</html>
