@@ -64,7 +64,7 @@ header p { margin: 6px 0 0; color: var(--muted); max-width: 70ch; }
 .views button[aria-pressed="true"] { background: var(--sun); color: #1b1b1b; }
 .legend { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; color: #fff;
   background: rgba(20,22,26,.72); border-radius: 8px; padding: 6px 10px; max-width: calc(100% - 24px); }
-.legend i { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 5px; border-radius: 2px; }
+.legend i { display: inline-block; width: 20px; height: 6px; vertical-align: middle; margin-right: 5px; border-radius: 2px; }
 
 .stage { display: grid; gap: 0; min-width: 0; }
 .stage .viewer { border-radius: 10px 10px 0 0; border-bottom: 0; }
@@ -154,9 +154,9 @@ td.zero { color: var(--muted); }
         <button id="vwest" aria-pressed="false">Desde el oeste</button>
       </div>
       <div class="legend">
-        <span><i style="background:#ffd34d"></i>Rayo de sol que llega</span>
+        <span><i style="background:#ffe600"></i>Rayo de sol que llega</span>
         <span><i style="background:#7b8bc4"></i>Rayo tapado</span>
-        <span><i style="background:#ffb000;height:2px"></i>Recorrido del sol en el día</span>
+        <span><i style="background:#ffd000"></i>Recorrido del sol en el día</span>
       </div>
     </div>
     <div class="timebar">
@@ -207,7 +207,7 @@ td.zero { color: var(--muted); }
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="core.js"></script>
+<script src="core.js?v=8"></script>
 <script>
 (function () {
   const S = window.SolarCore;
@@ -285,7 +285,7 @@ td.zero { color: var(--muted); }
   // suelo: captura de Google Maps a escala (0,5 m/px), norte arriba
   const far = new THREE.Mesh(new THREE.PlaneGeometry(2400, 2400), new THREE.MeshLambertMaterial({ color: 0xb9b2a3 }));
   far.rotation.x = -Math.PI / 2; far.position.y = -0.2; far.receiveShadow = true; scene.add(far);
-  const tex = new THREE.TextureLoader().load('mapa.png', () => render());
+  const tex = new THREE.TextureLoader().load('mapa-limpio.png', () => render());
   tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 8;
   const map = new THREE.Mesh(new THREE.PlaneGeometry(281.5, 240), new THREE.MeshLambertMaterial({ map: tex }));
   map.rotation.x = -Math.PI / 2; map.position.copy(W(-50.75, 1.5, 0)); map.receiveShadow = true; scene.add(map);
@@ -313,14 +313,22 @@ td.zero { color: var(--muted); }
   }
 
   // sol + trayectoria + rayos
-  const sunBall = new THREE.Mesh(new THREE.SphereGeometry(7, 24, 16), new THREE.MeshBasicMaterial({ color: 0xffc83a }));
+  const sunBall = new THREE.Mesh(new THREE.SphereGeometry(10, 24, 16), new THREE.MeshBasicMaterial({ color: 0xffe600 }));
   scene.add(sunBall);
   let pathLine = null;
   const R = 300;
-  const rayGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
-  const rayMat = new THREE.LineBasicMaterial({ color: 0xffd34d, linewidth: 2 });
-  const ray = new THREE.Line(rayGeo, rayMat); scene.add(ray);
-  const marker = new THREE.Mesh(new THREE.SphereGeometry(1.3, 16, 12), new THREE.MeshBasicMaterial({ color: 0xffd34d }));
+  // rayo de sol: cilindro grueso (las líneas WebGL siempre se dibujan de 1 px)
+  const rayMat = new THREE.MeshBasicMaterial({ color: 0xffe600 });
+  const rayGeo = new THREE.CylinderGeometry(1.1, 1.1, 1, 12, 1, true); rayGeo.translate(0, 0.5, 0);
+  const ray = new THREE.Mesh(rayGeo, rayMat); scene.add(ray);
+  const rayGlow = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.6, 1, 12, 1, true).translate(0, 0.5, 0),
+    new THREE.MeshBasicMaterial({ color: 0xffe600, transparent: true, opacity: 0.28, depthWrite: false })); scene.add(rayGlow);
+  const UPV = new THREE.Vector3(0, 1, 0);
+  function placeRay(a, b) {
+    const d = b.clone().sub(a), L = d.length();
+    [ray, rayGlow].forEach((m) => { m.position.copy(a); m.quaternion.setFromUnitVectors(UPV, d.normalize()); m.scale.set(1, L, 1); });
+  }
+  const marker = new THREE.Mesh(new THREE.SphereGeometry(2.4, 16, 12), new THREE.MeshBasicMaterial({ color: 0xffe600 }));
   scene.add(marker);
 
   // etiquetas HTML proyectadas
@@ -384,11 +392,14 @@ td.zero { color: var(--muted); }
     }
     const d = curDate();
     // trayectoria del sol
-    if (pathLine) { scene.remove(pathLine); pathLine.geometry.dispose(); }
+    if (pathLine) { scene.remove(pathLine); pathLine.children.concat([pathLine]).forEach((o) => o.geometry && o.geometry.dispose()); }
     const pts = [];
     for (let m = 300; m <= 1260; m += 5) { const p = S.sunPos(d.doy, m / 60); if (p.alt > 0) { const v = S.sunVec(p); pts.push(W(v[0] * R - 40, v[1] * R, v[2] * R)); } }
-    pathLine = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color: 0xffb000, dashSize: 6, gapSize: 4 }));
-    pathLine.computeLineDistances(); scene.add(pathLine);
+    // recorrido del sol: tubo amarillo grueso con halo
+    const curve = new THREE.CatmullRomCurve3(pts);
+    pathLine = new THREE.Mesh(new THREE.TubeGeometry(curve, 200, 2.4, 10, false), new THREE.MeshBasicMaterial({ color: 0xffd000 }));
+    pathLine.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 200, 5.5, 10, false), new THREE.MeshBasicMaterial({ color: 0xffe600, transparent: true, opacity: 0.25, depthWrite: false })));
+    scene.add(pathLine);
     // perfiles del día
     const z = levelZ();
     profiles = {}; FACE_ORDER.forEach((f) => profiles[f] = S.dayProfile(sc, f, z, d.doy, 2));
@@ -413,7 +424,7 @@ td.zero { color: var(--muted); }
     FACE_ORDER.forEach((f) => { const n = S.FACES[f].n; const dt = n[0] * v[0] + n[1] * v[1]; if (dt > bestDot) { bestDot = dt; best = f; } });
     const m = sc.mine, fp = { O: [m.x0, 0], E: [m.x1, 0], N: [0, m.y1], S: [0, m.y0] }[best];
     const lit = S.litAt(sc, best, z, sp);
-    ray.visible = marker.visible = up;
+    ray.visible = rayGlow.visible = marker.visible = up;
     const a = W(fp[0], fp[1], z);
     let len = 260;
     if (!lit.lit && lit.by !== 'orientacion') {
@@ -421,8 +432,8 @@ td.zero { color: var(--muted); }
       sc.boxes.forEach((b) => { const t = S.hitBox(p, v, b); if (t !== null) len = Math.min(len, t); });
     }
     const bpt = W(fp[0] + v[0] * len, fp[1] + v[1] * len, z + v[2] * len);
-    ray.geometry.setFromPoints([a, bpt]); marker.position.copy(a);
-    const c = lit.lit ? 0xffd34d : 0x7b8bc4; rayMat.color.setHex(c); marker.material.color.setHex(c);
+    placeRay(a, bpt); marker.position.copy(a);
+    const c = lit.lit ? 0xffe600 : 0x7b8bc4; rayMat.color.setHex(c); rayGlow.material.color.setHex(c); marker.material.color.setHex(c);
     // estado por fachada
     $('status').innerHTML = FACE_ORDER.map((f) => {
       const r = S.litAt(sc, f, z, sp);
