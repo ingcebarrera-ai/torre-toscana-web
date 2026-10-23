@@ -149,7 +149,7 @@ td.zero { color: var(--muted); }
         <span id="hudSun">Sol: 45° de altura, noroeste</span>
       </div>
       <div class="views" role="group" aria-label="Vista">
-        <button id="v3d" aria-pressed="true">3D</button>
+        <button id="v3d" aria-pressed="true">Vista dron</button>
         <button id="vtop" aria-pressed="false">Planta</button>
         <button id="vwest" aria-pressed="false">Desde el oeste</button>
       </div>
@@ -161,7 +161,7 @@ td.zero { color: var(--muted); }
     </div>
     <div class="timebar">
       <div class="tb-top">
-        <button id="play" aria-label="Reproducir el día">▶</button>
+        <button id="play" aria-label="Pausar">❚❚</button>
         <div class="tb-range">
           <input type="range" id="time" min="360" max="1140" step="5" value="840" aria-label="Hora del día">
           <div class="ticks" aria-hidden="true"><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span></div>
@@ -223,7 +223,7 @@ td.zero { color: var(--muted); }
   const startT = nowMin >= 420 && nowMin <= 1080 ? Math.round(nowMin / 5) * 5 : 840;
 
   const LEVELS = [{ id: 'bajo', name: 'Piso 1' }, { id: 'medio', name: 'Piso medio' }, { id: 'alto', name: 'Último piso' }];
-  const state = { date: 'ver', level: 'medio', myFloors: 11, eastFloors: 8, gap: 60, tall: 'sur', t: startT, playing: false };
+  const state = { date: 'ver', level: 'medio', myFloors: 11, eastFloors: 8, gap: 60, tall: 'sur', t: startT, playing: true };
 
   const $ = (id) => document.getElementById(id);
   const fmtT = (m) => S.fmt(m);
@@ -253,8 +253,15 @@ td.zero { color: var(--muted); }
   }
   chips($('dates'), DATES, 'date');
   chips($('levels'), LEVELS, 'level');
-  $('time').oninput = (e) => { state.t = +e.target.value; update(); };
-  $('play').onclick = () => { state.playing = !state.playing; $('play').textContent = state.playing ? '❚❚' : '▶'; $('play').setAttribute('aria-label', state.playing ? 'Pausar' : 'Reproducir el día'); };
+  function setPlaying(on) { state.playing = on; $('play').textContent = on ? '❚❚' : '▶'; $('play').setAttribute('aria-label', on ? 'Pausar' : 'Reproducir el día'); }
+  // al arrastrar la hora se pausa; al soltar sigue reproduciendo desde ahí, en bucle
+  let dragging = false;
+  $('time').oninput = (e) => { dragging = true; state.playing = false; state.t = +e.target.value; update(); };
+  const resume = () => { if (dragging) { dragging = false; setPlaying(true); } };
+  $('time').addEventListener('change', resume);
+  $('time').addEventListener('pointerup', resume);
+  $('time').addEventListener('touchend', resume);
+  $('play').onclick = () => setPlaying(!state.playing);
 
   // ---------- three.js ----------
   const canvas = $('gl'), viewer = $('viewer');
@@ -340,16 +347,25 @@ td.zero { color: var(--muted); }
   function setView(v) {
     ['v3d', 'vtop', 'vwest'].forEach((id) => $(id).setAttribute('aria-pressed', String(id === v)));
     const tgt = W(-35, -5, 10);
-    if (v === 'v3d') camera.position.copy(W(120, -230, 170));
+    if (v === 'v3d') {
+      // toma de dron desde el sureste: la Monteagudo queda inclinada ~60° hacia la derecha
+      const k = Math.max(1, 1.2 / camera.aspect), az = 165 * Math.PI / 180;
+      tgt.copy(W(-45, -5, 25));
+      camera.position.copy(W(-45 + 280 * k * Math.sin(az), -5 + 280 * k * Math.cos(az), 25 + 170 * k));
+    }
     if (v === 'vtop') camera.position.copy(W(-40, -0.5, 420));
     if (v === 'vwest') { camera.position.copy(W(-260, -5, 45)); tgt.copy(W(0, 0, 15)); }
     controls.target.copy(tgt); controls.update(); render();
   }
-  $('v3d').onclick = () => setView('v3d'); $('vtop').onclick = () => setView('vtop'); $('vwest').onclick = () => setView('vwest');
+  let curView = 'v3d', touched = false;
+  controls.addEventListener('start', () => { touched = true; });
+  $('v3d').onclick = () => { curView = 'v3d'; setView('v3d'); }; $('vtop').onclick = () => { curView = 'vtop'; setView('vtop'); }; $('vwest').onclick = () => { curView = 'vwest'; setView('vwest'); };
 
   function resize() {
     const w = viewer.clientWidth, h = viewer.clientHeight;
-    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); render();
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+    if (!touched && curView === 'v3d') setView('v3d');
+    render();
   }
   window.addEventListener('resize', resize);
 

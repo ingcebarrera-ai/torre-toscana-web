@@ -33,9 +33,9 @@
     const T = 40.5; // lado de cada torre nueva: 40,5 m ≈ 1640 m²; crecen hacia afuera, el espacio entre ellas no cambia
     return {
       opts: o,
-      mine: { name: 'Torre Toscana', x0: -8.6, x1: 8.6, y0: -11, y1: 11, h: myH }, // 17,2 × 22 m ≈ 378 m² (+50 %)
+      mine: { name: 'Torre Toscana', x0: -8.6, x1: 8.6, y0: -11, y1: 17.6, h: myH }, // 17,2 × 28,6 m (alargado 30 % hacia el norte)
       boxes: [
-        { id: 'este', name: 'Edificio vecino (este)', x0: 23.6, x1: 44.6, y0: -10.5, y1: 22,  // 21 × 32,5 m (alargado 30 % hacia el norte), a 15 m
+        { id: 'este', name: 'Edificio vecino (este)', x0: 23.6, x1: 44.6, y0: -10.5, y1: 28.5,  // 21 × 39 m (alargado hacia el norte), a 15 m
           h: o.eastFloors * o.floorH },
         { id: 'norte', name: 'Torre noroeste', x0: -98.25, x1: -57.75, y0: gc + o.gap / 2, y1: gc + o.gap / 2 + T, h: o.northFloors * o.floorH },
         { id: 'sur', name: 'Torre suroeste', x0: -117.25, x1: -76.75, y0: gc - o.gap / 2 - T, y1: gc - o.gap / 2, h: o.southFloors * o.floorH },
