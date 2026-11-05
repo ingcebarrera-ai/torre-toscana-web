@@ -62,8 +62,8 @@ src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
 (function(){
   // Los 4 archivos van en la MISMA carpeta que esta página, con estos nombres exactos.
   const ITEMS = {
-    b1: {t:'Brochure Torre Toscana', d:'PDF · 27 páginas', f:'Torre_Toscana_Brochure.pdf', type:'application/pdf'},
-    b2: {t:'Brochure 2 · Torre Toscana', d:'PDF · 15 páginas', f:'Torre_Toscana_Brochure_2.pdf', type:'application/pdf'},
+    b1: {t:'Brochure Torre Toscana', d:'PDF · 27 páginas', f:'Torre_Toscana_Brochure_v3.pdf', type:'application/pdf'},
+    b2: {t:'Brochure 2 · Torre Toscana', d:'PDF · 15 páginas', f:'Torre_Toscana_Brochure_2_v3.pdf', type:'application/pdf'},
     v1: {t:'Video del proyecto', d:'Video · 1:10', f:'Torre_Toscana_Video_Proyecto.mp4', type:'video/mp4'},
     v2: {t:'Avance de obra', d:'Video vertical · 0:46', f:'Torre_Toscana_Avance_de_Obra.mp4', type:'video/mp4'},
     v3: {t:'Vaciado de la losa 10', d:'Video vertical · 0:32 · lo más reciente', f:'Torre_Toscana_Losa_10.mp4', type:'video/mp4'}
@@ -74,7 +74,7 @@ src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
   const orden = pedido && ITEMS[pedido] ? [pedido].concat(Object.keys(ITEMS).filter(k => k !== pedido)) : Object.keys(ITEMS);
   lista.innerHTML = orden.map(k => { const it = ITEMS[k];
     return '<div class="item' + (k === pedido ? ' sel' : '') + '" id="i_' + k + '"><b>' + it.t + '</b><small>' + it.d + '</small>' +
-      '<div class="btns"><button class="enviar" data-k="' + k + '">Enviar por WhatsApp</button><a class="btn" href="' + it.f + '?v=3" download>Descargar</a></div>' +
+      '<div class="btns"><button class="enviar" data-k="' + k + '">Enviar por WhatsApp</button><a class="btn" href="' + it.f + '" download>Descargar</a></div>' +
       '<div class="estado" id="e_' + k + '"></div></div>'; }).join('');
   function preparar(k){
     if (archivos[k]) return archivos[k];
