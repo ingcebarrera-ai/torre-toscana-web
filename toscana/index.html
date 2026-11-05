@@ -74,13 +74,13 @@ src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
   const orden = pedido && ITEMS[pedido] ? [pedido].concat(Object.keys(ITEMS).filter(k => k !== pedido)) : Object.keys(ITEMS);
   lista.innerHTML = orden.map(k => { const it = ITEMS[k];
     return '<div class="item' + (k === pedido ? ' sel' : '') + '" id="i_' + k + '"><b>' + it.t + '</b><small>' + it.d + '</small>' +
-      '<div class="btns"><button class="enviar" data-k="' + k + '">Enviar por WhatsApp</button><a class="btn" href="' + it.f + '" download>Descargar</a></div>' +
+      '<div class="btns"><button class="enviar" data-k="' + k + '">Enviar por WhatsApp</button><a class="btn" href="' + it.f + '?v=2" download>Descargar</a></div>' +
       '<div class="estado" id="e_' + k + '"></div></div>'; }).join('');
   function preparar(k){
     if (archivos[k]) return archivos[k];
     const it = ITEMS[k], est = document.getElementById('e_' + k);
     archivos[k] = (async () => {
-      const r = await fetch(it.f);
+      const r = await fetch(it.f, {cache: 'no-cache'});
       if (!r.ok) throw new Error('No se encontró el archivo (' + r.status + ')');
       const total = +r.headers.get('content-length') || 0;
       let blob;
