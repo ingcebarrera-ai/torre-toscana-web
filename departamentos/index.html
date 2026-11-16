@@ -324,31 +324,42 @@ src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
       return '<option value="' + p + '"' + (+p === S.piso ? ' selected' : '') + (ok ? '' : ' disabled') + '>Piso ' + p + (ok ? ' · ' + fmt(lista(S.tipo, p)) : marca(id)) + '</option>'; }).join('') +
       (S.piso ? '' : '<option value="" selected disabled>Sin pisos disponibles</option>');
   };
+  /* parqueo y baulera: el cliente solo elige nivel; el número exacto se asigna en oficina */
+  const NIV = {S:'Semisótano', PB:'Planta baja'};
+  const libresEn = (t, l) => EXTRAS.filter(e => e.t === t && e.l === l && libre(e.id));
+  const parqObj = () => { if (!S.parq) return null; const d = libresEn('P', NIV[S.parq])[0]; return d ? {n:'Parqueo en ' + NIV[S.parq].toLowerCase(), l:NIV[S.parq], p:d.p} : null; };
+  const baulObj = () => {
+    if (!S.baul) return null;
+    const pref = S.parq === 'PB' ? ['Planta baja', 'Semisótano'] : ['Semisótano', 'Planta baja'];
+    for (const l of pref) { const d = libresEn('B', l)[0]; if (d) return {n:'Baulera', l, p:d.p}; }
+    return null;
+  };
   const extrasSel = () => {
-    if (S.parq && !libre(S.parq)) S.parq = '';
-    if (S.baul && !libre(S.baul)) S.baul = '';
-    const op = (e, txt, cur) => '<option value="' + e.id + '"' + (e.id === cur ? ' selected' : '') + (libre(e.id) ? '' : ' disabled') + '>' + txt + (libre(e.id) ? ' · ' + fmt(e.p) : marca(e.id)) + '</option>';
-    $('sParq').innerHTML = '<option value="">Sin parqueo</option>' + EXTRAS.filter(e => e.t === 'P').map(e => op(e, e.n + ' · ' + e.l, S.parq)).join('');
-    $('sBaul').innerHTML = '<option value="">Sin baulera</option>' + EXTRAS.filter(e => e.t === 'B').map(e => op(e, e.n + ' · ' + e.m2 + ' m²', S.baul)).join('');
+    if (S.parq && !libresEn('P', NIV[S.parq]).length) S.parq = '';
+    if (S.baul && !baulObj()) S.baul = '';
+    $('sParq').innerHTML = '<option value="">Sin parqueo</option>' + Object.keys(NIV).map(k => { const d = libresEn('P', NIV[k]);
+      return '<option value="' + k + '"' + (k === S.parq ? ' selected' : '') + (d.length ? '' : ' disabled') + '>Parqueo en ' + NIV[k].toLowerCase() + (d.length ? ' · ' + fmt(d[0].p) : ' (Agotado)') + '</option>'; }).join('');
+    const b = (() => { const keep = S.baul; S.baul = 'si'; const o = baulObj(); S.baul = keep; return o; })();
+    $('sBaul').innerHTML = '<option value="">Sin baulera</option><option value="si"' + (S.baul ? ' selected' : '') + (b ? '' : ' disabled') + '>Con baulera' + (b ? ' · ' + fmt(b.p) : ' (Agotado)') + '</option>';
   };
   $('planes').innerHTML = [[20, '20%', 'mínimo'], [40, '40%', '−' + pct(P.d40) + '%'], [60, '60%', '−' + pct(P.d60) + '%'], [100, 'Contado', '−' + pct(P.d100) + '%']]
     .map(([v, t, s]) => '<button type="button" data-p="' + v + '"><span>' + t + '</span><small>' + s + '</small></button>').join('');
   const ex = id => EXTRAS.find(e => e.id === id);
-  const total = x => { const L = lista(S.tipo, S.piso); return L - L * desc(x) / 100 + (S.parq ? ex(S.parq).p : 0) + (S.baul ? ex(S.baul).p : 0); };
+  const total = x => { const L = lista(S.tipo, S.piso), pq = parqObj(), bl = baulObj(); return L - L * desc(x) / 100 + (pq ? pq.p : 0) + (bl ? bl.p : 0); };
   const montoDe = x => r2(total(x) * x / 100);
   const pctDe = m => { if (m >= total(100)) return 100; let lo = 0, hi = 100; for (let i = 0; i < 60; i++) { const mid = (lo + hi) / 2; if (total(mid) * mid / 100 < m) lo = mid; else hi = mid; } return (lo + hi) / 2; };
 
   function calc(){
     const t = TIPOS[S.tipo], L = lista(S.tipo, S.piso), x = Math.min(Math.max(S.pct, 0), 100), d = desc(x);
-    const r = {t, L, x, d, desc: L * d / 100, parq: S.parq ? ex(S.parq) : null, baul: S.baul ? ex(S.baul) : null};
+    const r = {t, L, x, d, desc: L * d / 100, parq: parqObj(), baul: baulObj()};
     r.total = total(x); r.firma = r.total * x / 100; r.neta = Math.max(r.firma - P.reserva, 0); r.saldo = r.total - r.firma;
     r.pm2 = (L - r.desc) / t.m2;
     return r;
   }
   function resumen(r){
     const l = ['Hola, quiero más información sobre esta cotización de Torre Toscana:', t2(r)];
-    if (r.parq) l.push(r.parq.n + ' (' + r.parq.l + '): ' + fmt(r.parq.p));
-    if (r.baul) l.push(r.baul.n + ' (' + r.baul.l + '): ' + fmt(r.baul.p));
+    if (r.parq) l.push(r.parq.n + ': ' + fmt(r.parq.p));
+    if (r.baul) l.push('Con baulera: ' + fmt(r.baul.p));
     if (S.modo === 'credito') { l.push('Pago a la firma: ' + pct(r.x) + '%'); l.push('Quiero pagar el saldo con crédito directo hasta ' + P.credito + '. ¿Cuál sería mi cuota?'); }
     else {
       if (r.d) l.push('Descuento ' + pct(r.d) + '%: −' + fmt(r.desc));
@@ -382,7 +393,7 @@ src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
         '<table class="desg"><tbody>' +
         fila('Departamento ' + r.t.n + ' · piso ' + S.piso, fmt(r.L)) +
         (r.d ? fila('Descuento ' + pct(r.d) + '%', '−' + fmt(r.desc), 'neg') : '') +
-        (r.parq ? fila(r.parq.n, fmt(r.parq.p)) : '') + (r.baul ? fila(r.baul.n, fmt(r.baul.p)) : '') +
+        (r.parq ? fila(r.parq.n, fmt(r.parq.p)) : '') + (r.baul ? fila('Baulera', fmt(r.baul.p)) : '') +
         fila('Precio final', fmt(r.total), 'f') +
         fila('Costo por m² (' + m2txt(r.t.m2) + ' m²)', fmt(r.pm2)) +
         fila('Pago a la firma (' + pct(r.x) + '%)', fmt(r.firma)) +
@@ -398,7 +409,7 @@ src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
   const syncInputs = () => { $('sPct').value = Math.round(S.pct * 100) / 100; $('sMon').value = S.piso ? montoDe(S.pct) : ''; };
   $('sTipo').addEventListener('change', e => { S.tipo = e.target.value; pisos(); syncInputs(); pintar(); });
   $('sPiso').addEventListener('change', e => { S.piso = +e.target.value || null; syncInputs(); pintar(); });
-  $('sParq').addEventListener('change', e => { S.parq = e.target.value; syncInputs(); pintar(); });
+  $('sParq').addEventListener('change', e => { S.parq = e.target.value; extrasSel(); syncInputs(); pintar(); });
   $('sBaul').addEventListener('change', e => { S.baul = e.target.value; syncInputs(); pintar(); });
   document.querySelectorAll('#planes button').forEach(b => b.addEventListener('click', () => { S.pct = +b.dataset.p; syncInputs(); pintar(); }));
   document.querySelectorAll('#modos button').forEach(b => b.addEventListener('click', () => { S.modo = b.dataset.m; pintar(); }));
