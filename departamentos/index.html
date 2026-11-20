@@ -64,6 +64,9 @@ table.precios{width:100%;border-collapse:collapse;font-variant-numeric:tabular-n
 @media (max-width:820px){.pq{grid-template-columns:1fr}}
 .pq h3{margin:0 0 10px;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--terra)}
 .pq table{min-width:0}
+.pq tr.ocup td{color:#a9a39a}
+.pq>div{min-width:0}
+@media (max-width:480px){.pq .precios th,.pq .precios td{padding:10px 8px;font-size:13.5px}}
 /* simulador */
 .sim{background:var(--verde);color:#efe9df;padding:100px 0}
 .sim .eyebrow{color:#c9cdbf}.sim h2{color:#fff}.sim h2 b{color:var(--durazno)}.sim .lead{color:#d4d8c9}
@@ -256,11 +259,12 @@ src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
     {id:'P3', t:'P', n:'Parqueo 3', l:'Semisótano', p:10000}, {id:'P4', t:'P', n:'Parqueo 4', l:'Semisótano', p:10000},
     {id:'P5', t:'P', n:'Parqueo 5', l:'Semisótano', p:10000}, {id:'P6', t:'P', n:'Parqueo 6', l:'Semisótano', p:10000},
     {id:'P7', t:'P', n:'Parqueo 7', l:'Planta baja', p:11000}, {id:'P8', t:'P', n:'Parqueo 8', l:'Planta baja', p:11000},
-    {id:'P9', t:'P', n:'Parqueo 9', l:'Planta baja', p:11000},
-    {id:'B1', t:'B', n:'Baulera 1', l:'Semisótano', m2:'3,00', p:2500}, {id:'B2', t:'B', n:'Baulera 2', l:'Semisótano', m2:'2,45', p:2500},
-    {id:'B3', t:'B', n:'Baulera 3', l:'Semisótano', m2:'2,20', p:2500}, {id:'B4', t:'B', n:'Baulera 4', l:'Semisótano', m2:'3,38', p:2500},
-    {id:'B5', t:'B', n:'Baulera 5', l:'Semisótano', m2:'5,58', p:2500}, {id:'B6', t:'B', n:'Baulera 6', l:'Semisótano', m2:'3,25', p:2500},
-    {id:'B7', t:'B', n:'Baulera 7', l:'Planta baja', m2:'1,88', p:3000}, {id:'B8', t:'B', n:'Baulera 8', l:'Planta baja', m2:'1,88', p:3000}
+    {id:'P9', t:'P', n:'Parqueo 9', l:'Planta baja', p:11000}, {id:'P10', t:'P', n:'Parqueo 10', l:'Planta baja', p:11000},
+    {id:'B1', t:'B', n:'Baulera 1', l:'Semisótano', m2:'3,00', p:2000}, {id:'B2', t:'B', n:'Baulera 2', l:'Semisótano', m2:'2,45', p:2000},
+    {id:'B3', t:'B', n:'Baulera 3', l:'Semisótano', m2:'2,20', p:2000}, {id:'B4', t:'B', n:'Baulera 4', l:'Semisótano', m2:'3,38', p:2000},
+    {id:'B5', t:'B', n:'Baulera 5', l:'Semisótano', m2:'5,58', p:2000}, {id:'B6', t:'B', n:'Baulera 6', l:'Semisótano', m2:'3,25', p:2000},
+    {id:'B7', t:'B', n:'Baulera 7', l:'Planta baja', m2:'1,88', p:2000}, {id:'B8', t:'B', n:'Baulera 8', l:'Planta baja', m2:'1,88', p:2000},
+    {id:'B9', t:'B', n:'Baulera 9', l:'Planta baja', m2:'—', p:2000}
   ];
   const WA = '59160744425';
 
@@ -309,9 +313,10 @@ src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
 
   /* ====== tabla de parqueos y bauleras ====== */
   const tab = (tit, rows, head) => '<div><h3>' + tit + '</h3><div class="tabla-wrap" style="margin-top:0"><table class="precios" style="min-width:0"><thead><tr>' + head + '</tr></thead><tbody>' + rows + '</tbody></table></div></div>';
-  document.getElementById('pq').innerHTML =
-    tab('Parqueos', EXTRAS.filter(e => e.t === 'P').map(e => '<tr><td>' + e.n + '</td><td>' + e.l + '</td><td>12,5 m²</td><td class="dest">' + miles(e.p) + '</td></tr>').join(''), '<th>Parqueo</th><th>Nivel</th><th>Área</th><th class="dest">Precio</th>') +
-    tab('Bauleras', EXTRAS.filter(e => e.t === 'B').map(e => '<tr><td>' + e.n + '</td><td>' + e.l + '</td><td>' + e.m2 + ' m²</td><td class="dest">' + miles(e.p) + '</td></tr>').join(''), '<th>Baulera</th><th>Nivel</th><th>Área</th><th class="dest">Precio</th>');
+  const precioCelda = e => libre(e.id) ? miles(e.p) : (est(e.id) === 'vendido' ? 'Vendido' : 'Reservado');
+  const tablaExtras = () => { document.getElementById('pq').innerHTML =
+    tab('Parqueos', EXTRAS.filter(e => e.t === 'P').map(e => '<tr' + (libre(e.id) ? '' : ' class="ocup"') + '><td>' + e.n + '</td><td>' + e.l + '</td><td>12,5 m²</td><td class="dest">' + precioCelda(e) + '</td></tr>').join(''), '<th>Parqueo</th><th>Nivel</th><th>Área</th><th class="dest">Precio</th>') +
+    tab('Bauleras', EXTRAS.filter(e => e.t === 'B').map(e => '<tr' + (libre(e.id) ? '' : ' class="ocup"') + '><td>' + e.n + '</td><td>' + e.l + '</td><td>' + (e.m2 === '—' ? '—' : e.m2 + ' m²') + '</td><td class="dest">' + precioCelda(e) + '</td></tr>').join(''), '<th>Baulera</th><th>Nivel</th><th>Área</th><th class="dest">Precio</th>'); };
 
   /* ====== simulador ====== */
   const S = {tipo:'A', piso:1, parq:'', baul:'', pct:20, modo:'entrega'};
@@ -419,7 +424,7 @@ src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
     S.tipo = b.dataset.sim; $('sTipo').value = S.tipo; pisos(); syncInputs(); pintar();
     document.getElementById('simulador').scrollIntoView({behavior: 'smooth'});
   }));
-  const refrescar = () => { pisos(); extrasSel(); syncInputs(); pintar(); };
+  const refrescar = () => { tablaExtras(); pisos(); extrasSel(); syncInputs(); pintar(); };
   refrescar();
   const cargar = u => fetch(u + '?t=' + Date.now(), {cache: 'no-store'}).then(r => { if (!r.ok) throw 0; return r.json(); });
   cargar(URL_EST).catch(() => cargar('estado.json')).then(d => { EST = (d && d.u) || {}; refrescar(); }).catch(() => {});
