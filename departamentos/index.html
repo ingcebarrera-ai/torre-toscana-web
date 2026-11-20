@@ -313,10 +313,10 @@ src="https://www.facebook.com/tr?id=1004506519348487&ev=PageView&noscript=1"
 
   /* ====== tabla de parqueos y bauleras ====== */
   const tab = (tit, rows, head) => '<div><h3>' + tit + '</h3><div class="tabla-wrap" style="margin-top:0"><table class="precios" style="min-width:0"><thead><tr>' + head + '</tr></thead><tbody>' + rows + '</tbody></table></div></div>';
-  const precioCelda = e => libre(e.id) ? miles(e.p) : (est(e.id) === 'vendido' ? 'Vendido' : 'Reservado');
+  const precioCelda = e => miles(e.p);   // tabla informativa: sin estados de venta
   const tablaExtras = () => { document.getElementById('pq').innerHTML =
-    tab('Parqueos', EXTRAS.filter(e => e.t === 'P').map(e => '<tr' + (libre(e.id) ? '' : ' class="ocup"') + '><td>' + e.n + '</td><td>' + e.l + '</td><td>12,5 m²</td><td class="dest">' + precioCelda(e) + '</td></tr>').join(''), '<th>Parqueo</th><th>Nivel</th><th>Área</th><th class="dest">Precio</th>') +
-    tab('Bauleras', EXTRAS.filter(e => e.t === 'B').map(e => '<tr' + (libre(e.id) ? '' : ' class="ocup"') + '><td>' + e.n + '</td><td>' + e.l + '</td><td>' + (e.m2 === '—' ? '—' : e.m2 + ' m²') + '</td><td class="dest">' + precioCelda(e) + '</td></tr>').join(''), '<th>Baulera</th><th>Nivel</th><th>Área</th><th class="dest">Precio</th>'); };
+    tab('Parqueos', EXTRAS.filter(e => e.t === 'P').map(e => '<tr><td>' + e.n + '</td><td>' + e.l + '</td><td>12,5 m²</td><td class="dest">' + precioCelda(e) + '</td></tr>').join(''), '<th>Parqueo</th><th>Nivel</th><th>Área</th><th class="dest">Precio</th>') +
+    tab('Bauleras', EXTRAS.filter(e => e.t === 'B').map(e => '<tr><td>' + e.n + '</td><td>' + e.l + '</td><td>' + (e.m2 === '—' ? '—' : e.m2 + ' m²') + '</td><td class="dest">' + precioCelda(e) + '</td></tr>').join(''), '<th>Baulera</th><th>Nivel</th><th>Área</th><th class="dest">Precio</th>'); };
 
   /* ====== simulador ====== */
   const S = {tipo:'A', piso:1, parq:'', baul:'', pct:20, modo:'entrega'};
